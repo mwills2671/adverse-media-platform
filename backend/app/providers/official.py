@@ -19,7 +19,7 @@ class GovUK(Provider):
     id = "govuk"
     name = "GOV.UK Search API"
     kind = "government"
-    core = True
+    core = False
     coverage_note = ("GOV.UK site search API: UK government press releases, notices and decisions (HMRC, Insolvency "
                      "Service director disqualifications, SFO, OFSI, CPS, NCA, Companies House). Title/description level.")
 

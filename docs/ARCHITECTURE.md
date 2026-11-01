@@ -94,3 +94,19 @@ See `docs/MVP_PLAN.md §5` and `backend/app/data/policy.json`. Identity confiden
 ## 7. Deployment
 
 `Dockerfile` (multi-stage) + `render.yaml` (documentation of the service/DB). Render web service (docker runtime, Frankfurt) with env vars: `DATABASE_URL`, `SECRET_KEY`, `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `APP_ENV=production`, optional provider keys and `LLM_*`.
+
+## 8. v2 additions (Nov 2026)
+| Area | Module | Notes |
+|---|---|---|
+| Source set | `providers/registry.py` | `active_providers()` = Google News + Bing News (media) plus keyless official lookups (GOV.UK, DOJ, SEC); Companies House only with a key. Others kept in code, opt-in via `AMS_EXTRA_PROVIDERS`. `provider_catalog()` lists only active providers |
+| Date window | `providers/base.SearchContext`, `scoring.classify`/`outside_window`, `engine.py` | `SearchContext(lookback_years)` → `window_start`. Relevant items older than the window go to bucket `outside_window` (rank 2) and are excluded from RAG. Per-screening `lookback_years` (0 = none, max 30) is stored in `identifiers._lookback_years` and audited |
+| Consolidated summary | `summary.py` | Deterministic `build()` → verdict, label, one-line reason, paragraphs, numbered facts, themes, window, coverage flag. Optional `llm_rewrite()` is accepted only if `verify_llm()` passes (every sentence cites a fact; every number appears in the fact payload) |
+| Related parties | `research/related.py`, `models.RelatedParty`, `api/routes.py` | `discover()` runs concurrently with stage 2–4 of an entity screening (timeout `related_parties.timeout_s`). Sources: company website (robots-checked governance/shareholder pages, table and sentence extraction with name/pct orientation detection), Wikipedia REST by exact title + infobox, ownership chain (`chain_depth`), Google/Bing News RSS headlines. `ground()` drops any name not present in fetched text. `merge()` de-duplicates and ranks. Rows persisted with origin `auto`/`manual`, state `candidate`/`confirmed`/`dismissed`, evidence JSON |
+| Child screenings | `POST /related-parties/{id}/screen` | Creates a linked screening (`identifiers._parent`), inherits the window; individuals get the parent as an associated entity (identity evidence); entity children skip their own discovery. Refuses family/partial/single-token names (409) |
+| Parent roll-up | `api/serial.related_block()` | `related_summary` = total, screened, completed, highest RAG (RED>AMBER>FAILED>GREEN), hits, overall note, pending. Kept separate from the subject's own `final_status`; included in the close-case audit and the PDF |
+| Concurrency | `engine.py` | Global semaphore (3 concurrent screenings) so one-click child screenings queue rather than overload the free instance |
+| UI | `pages/Screening.tsx`, `pages/RelatedParties.tsx`, `index.css` | Verdict banner, tabs, coverage chip, related-party table with Screen/Confirm/Dismiss/Add full name and manual add; gradient/dot-grid backgrounds (`.bg-app`, `.bg-login`), print falls back to white |
+
+Endpoints added: `GET/POST /api/screenings/{sid}/related-parties`, `PATCH /api/related-parties/{rid}`,
+`POST /api/related-parties/{rid}/screen`. Audit actions: `related_parties.discovered`, `related_party.added`,
+`related_party.updated`, `related_party.screened`.

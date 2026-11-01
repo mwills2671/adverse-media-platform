@@ -144,3 +144,26 @@ The engine is therefore working as designed. A name-only or weak identity match 
 - key-based providers: shown as "disabled-no-key"
 
 Screenshots of the production instance are at `shots/prod_01…08_{desktop,mobile}.png` (1280 px and 390 px).
+
+## 6. v2 changes — test evidence (1 Nov 2026, Europe/London GMT)
+
+### 6.1 Automated suite
+`pytest -q` → **120 passed, 1 xfailed** (the documented `id09` gap). New file `tests/test_v2.py` (13 tests) covers: website
+shareholder/board extraction on a fictional bank page (name-first and %-first layouts), ownership-sentence parsing
+(skips "holds a stake in X" and speculation), news-headline role extraction and junk rejection, the grounding check
+(a name absent from fetched text is dropped), infobox merge and ranking, the provider set (Google/Bing only, no
+disabled rows), `outside_window` bucketing, the summary LLM verifier (uncited sentence or invented number → rejected),
+and the related-party API (manual add, 422 validation, 409 for partial names, PATCH, one-click child screening with a
+labelled fixture, parent linking and highest-RAG roll-up, audit actions, PDF section, read-only RBAC). The
+`test_api.py` window test checks a 2019 item lands in `outside_window` at 5 years and becomes mitigating at 10.
+
+### 6.2 Local end-to-end (genuine live searches, `scripts/v2_e2e.py`)
+| Subject | Result | Window | Related parties found (source, confidence) | Missed / notes |
+|---|---|---|---|---|
+| Wirecard AG (DE) | **RED** (material: fraud investigation, Guardian 2023); 88 review, 7 outside window | 5 y, since 2021-11-01 | Thomas Eichelmann (Wikipedia infobox, medium), Markus Braun (FT via Bing, medium), Wulf Matthias (news, low) | Jan Marsalek not extracted (appears in headlines but not in a role pattern). Child screen of Eichelmann → GREEN |
+| PASHA Bank (AZ) | **GREEN** (0 review, 47 low) | 5 y | Website (high): PASHA Financial Holding Ltd 53.97%, BLESS Ltd 26.77%, Arif Pashayev 9.5%, Mir Jamal Pashayev 4.76%, 5 supervisory-board members, 6 executives. Wikipedia "PASHA Holding" chain (low): Aliyev family, Pashayev family, Ilham Aliyev, Mehriban Aliyeva, "Arzu" and "Leyla" (partial names, cannot be screened until a full name is added) | Anar Karimov and Jalal Gasimov (named in some sources) not found; Wikidata is robots-blocked. Child screen of Arif Pashayev → GREEN |
+| Greggs plc (UK) | **AMBER** — 13 "possible"-identity items (fraudsters posing as Greggs, a cocaine-in-doughnuts story, a WH Smith CFO accounting story) | 5 y | Ian Durant, Roisin Currie, John Gregg (Wikipedia infobox, medium), Matt Davies (FT, low) | AMBER is driven by incidental brand mentions that an analyst would mark false positive; no material findings. Child screen of Ian Durant → GREEN |
+
+PDF for each contained the consolidated summary, the date window row and the related-parties table. Screenshots:
+`shots/v2_*_{desktop,mobile}.png` (login, new screening, and for each subject the verdict/overview, findings, related
+parties, sources and audit tabs, plus a child screening).

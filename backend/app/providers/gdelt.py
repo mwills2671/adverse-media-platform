@@ -16,7 +16,7 @@ class Gdelt(Provider):
     id = "gdelt"
     name = "GDELT DOC 2.0"
     kind = "news-index"
-    core = True
+    core = False
     concurrency = 1
     retries = 0
     timeout_s = 22

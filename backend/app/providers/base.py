@@ -142,6 +142,19 @@ class SearchContext:
     taxonomy: dict
     policy: dict
     fault_injection: dict | None = None
+    lookback_years: int = 5  # 0 = no date window
+
+    @property
+    def window_start(self) -> str | None:
+        """ISO date of the start of the adverse-media date window (None = unlimited)."""
+        if not self.lookback_years:
+            return None
+        from datetime import date
+        t = date.today()
+        try:
+            return t.replace(year=t.year - self.lookback_years).isoformat()
+        except ValueError:  # 29 Feb
+            return t.replace(year=t.year - self.lookback_years, day=28).isoformat()
 
     @property
     def search_names(self) -> list[str]:

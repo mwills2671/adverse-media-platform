@@ -14,11 +14,11 @@ from .. import audit, engine, report, settings_store
 from ..analysis.rules import STATUS_LABEL, STATUS_ORDER
 from ..config import settings
 from ..db import get_db
-from ..models import AuditEntry, Finding, Screening, User, now
+from ..models import AuditEntry, Finding, RelatedParty, Screening, User, now
 from ..providers.registry import provider_catalog
 from ..security import (COOKIE, ROLES, client_ip, create_session, current_session, current_user, destroy_session,
                         hash_password, login_limiter, password_policy_error, require, screen_limiter, verify_password)
-from .serial import finding_out, screening_out, screening_summary
+from .serial import ROLE_LABEL, finding_out, related_block, related_out, screening_out, screening_summary
 
 router = APIRouter(prefix="/api")
 WRITE = require("admin", "analyst")
@@ -112,6 +112,8 @@ def meta(user: User = Depends(current_user), db: Session = Depends(get_db)):
                                                                  for c in tax["categories"]]},
             "statuses": [{"id": s, "label": STATUS_LABEL[s]} for s in STATUS_ORDER + ["unknown"]],
             "dispositions": DISPOSITIONS, "stages": engine.STAGES,
+            "lookback_years": settings_store.get_policy(db).get("lookback_years", 5),
+            "related_roles": [{"id": k, "label": v} for k, v in ROLE_LABEL.items()],
             "fixture_sets": sorted(p.stem for p in FIXTURE_DIR.glob("*.json")) if settings.test_mode else []}
 
 
@@ -122,6 +124,7 @@ class ScreenIn(BaseModel):
     identifiers: dict = Field(default_factory=dict)
     test_fixture_set: str | None = None  # TEST MODE ONLY
     fault_injection: dict | None = None  # TEST MODE ONLY
+    lookback_years: int | None = Field(default=None, ge=0, le=30)  # None = policy default (5); 0 = no date window
 
 
 ALLOWED_IDS = {"individual": {"aliases", "dob", "nationality", "country_of_residence", "country_of_birth", "occupation",
@@ -161,6 +164,8 @@ async def create_screening(body: ScreenIn, request: Request, user: User = Depend
             raise HTTPException(404, "Unknown fixture set")
         from ..providers.base import RawItem
         fixtures = [RawItem(**it) for it in json.loads(p.read_text())["items"]]
+    if body.lookback_years is not None:
+        ids["_lookback_years"] = body.lookback_years
     if test and body.fault_injection:
         ids["_fault_injection"] = {k: str(v)[:100] for k, v in body.fault_injection.items()}
     s = Screening(id=engine.new_id(), subject_type=body.subject_type, subject_name=name, identifiers=ids, created_by=user.username,
@@ -170,6 +175,7 @@ async def create_screening(body: ScreenIn, request: Request, user: User = Depend
     audit.append(db, user.username, "screening.created", s.id,
                  {"subject_type": s.subject_type, "identifier_fields": sorted(k for k in ids if not k.startswith("_")),
                   "test_mode": test, "fixture_set": body.test_fixture_set if test else None,
+                  "lookback_years": ids.get("_lookback_years", "policy default"),
                   "fault_injection": sorted((body.fault_injection or {}).keys()) if test else None})
     engine.start(s.id, fixtures)
     return {"id": s.id}
@@ -268,7 +274,11 @@ def close(sid: str, body: CloseIn, user: User = Depends(WRITE), db: Session = De
     if body.notes.strip():
         s.analyst_notes = body.notes.strip()
     db.commit()
-    audit.append(db, user.username, "screening.closed", s.id, {"disposition": body.disposition, "final_status": _final(s)})
+    rs = related_block(s)["summary"]
+    audit.append(db, user.username, "screening.closed", s.id, {"disposition": body.disposition, "final_status": _final(s),
+                                                               "related_parties_highest": rs["highest"],
+                                                               "related_party_hits": rs["hits"][:20],
+                                                               "related_note": rs["overall_note"]})
     return screening_summary(s)
 
 
@@ -298,6 +308,146 @@ def notes(sid: str, body: NotesIn, user: User = Depends(WRITE), db: Session = De
     db.commit()
     audit.append(db, user.username, "screening.notes_updated", s.id, {"length": len(body.notes)})
     return {"ok": True}
+
+
+# ------------------------------------------------------------------ related parties
+RP_ROLES = tuple(ROLE_LABEL)
+
+
+class RelatedIn(BaseModel):
+    name: str = Field(min_length=2, max_length=300)
+    party_type: str = Field(default="individual", pattern="^(individual|entity)$")
+    role: str = Field(default="other")
+    ownership_pct: str | None = Field(default=None, max_length=32)
+    note: str | None = Field(default=None, max_length=2000)
+
+
+class RelatedPatch(BaseModel):
+    name: str | None = Field(default=None, min_length=2, max_length=300)
+    party_type: str | None = Field(default=None, pattern="^(individual|entity)$")
+    role: str | None = None
+    ownership_pct: str | None = Field(default=None, max_length=32)
+    note: str | None = Field(default=None, max_length=2000)
+    state: str | None = Field(default=None, pattern="^(candidate|confirmed|dismissed)$")
+
+
+def _pct_ok(v):
+    if v in (None, ""):
+        return None
+    v = str(v).strip().rstrip("%").replace(",", ".")
+    try:
+        f = float(v)
+    except ValueError:
+        raise HTTPException(422, "Ownership % must be a number between 0 and 100")
+    if not 0 <= f <= 100:
+        raise HTTPException(422, "Ownership % must be between 0 and 100")
+    return v
+
+
+@router.get("/screenings/{sid}/related-parties")
+def list_related(sid: str, user: User = Depends(current_user), db: Session = Depends(get_db)):
+    s = _get(db, sid)
+    return related_block(s) | {"discovery": (s.metrics or {}).get("related_discovery")}
+
+
+@router.post("/screenings/{sid}/related-parties")
+def add_related(sid: str, body: RelatedIn, user: User = Depends(WRITE), db: Session = Depends(get_db)):
+    s = _get(db, sid)
+    if s.anonymised_at:
+        raise HTTPException(409, "Anonymised screening")
+    if body.role not in RP_ROLES:
+        raise HTTPException(422, "Unknown role")
+    r = RelatedParty(screening_id=s.id, name=re.sub(r"\s+", " ", body.name).strip(), party_type=body.party_type, role=body.role,
+                     ownership_pct=_pct_ok(body.ownership_pct), note=(body.note or "").strip() or None, confidence="manual",
+                     origin="manual", state="confirmed", added_by=user.username, evidence=[])
+    db.add(r)
+    db.commit()
+    audit.append(db, user.username, "related_party.added", s.id, {"related_party_id": r.id, "name": r.name, "role": r.role,
+                                                                  "ownership_pct": r.ownership_pct, "party_type": r.party_type})
+    return related_out(r, None)
+
+
+@router.patch("/related-parties/{rid}")
+def patch_related(rid: int, body: RelatedPatch, user: User = Depends(WRITE), db: Session = Depends(get_db)):
+    r = db.get(RelatedParty, rid)
+    if not r:
+        raise HTTPException(404, "Related party not found")
+    changes = {}
+    for k, v in body.model_dump(exclude_unset=True).items():
+        if k == "role" and v not in RP_ROLES:
+            raise HTTPException(422, "Unknown role")
+        if k == "ownership_pct":
+            v = _pct_ok(v)
+        if k == "name" and v:
+            v = re.sub(r"\s+", " ", v).strip()
+            r.partial_name = False
+        if getattr(r, k) != v:
+            changes[k] = {"from": getattr(r, k), "to": v}
+            setattr(r, k, v)
+    db.commit()
+    if changes:
+        audit.append(db, user.username, "related_party.updated", r.screening_id, {"related_party_id": r.id, "changes": changes})
+    return related_out(r, db.get(Screening, r.child_screening_id) if r.child_screening_id else None)
+
+
+class ScreenRelatedIn(BaseModel):
+    test_fixture_set: str | None = None  # TEST MODE ONLY
+
+
+@router.post("/related-parties/{rid}/screen")
+async def screen_related(rid: int, body: ScreenRelatedIn | None = None, user: User = Depends(WRITE),
+                         db: Session = Depends(get_db)):
+    fx_name = body.test_fixture_set if body else None
+    if fx_name and not settings.test_mode:
+        raise HTTPException(400, "Test fixtures are only available in test mode")
+    r = db.get(RelatedParty, rid)
+    if not r:
+        raise HTTPException(404, "Related party not found")
+    parent = _get(db, r.screening_id)
+    if parent.anonymised_at:
+        raise HTTPException(409, "Anonymised screening")
+    if r.party_type == "family":
+        raise HTTPException(409, "A family name cannot be screened — add the individual family members first")
+    if r.partial_name or len(r.name.split()) < 2 and r.party_type == "individual":
+        raise HTTPException(409, "Only a partial name is known — edit the name to a full name before screening")
+    if r.child_screening_id:
+        c = db.get(Screening, r.child_screening_id)
+        if c and c.job_status in ("queued", "running"):
+            raise HTTPException(409, "A screening for this party is already running")
+    if not screen_limiter.allow(user.username):
+        raise HTTPException(429, "Screening rate limit reached — try again later")
+    pids = parent.identifiers or {}
+    ids: dict = {"_parent": {"screening_id": parent.id, "related_party_id": r.id, "subject_name": parent.subject_name,
+                             "role": ROLE_LABEL.get(r.role, r.role)}}
+    if "_lookback_years" in pids:
+        ids["_lookback_years"] = pids["_lookback_years"]
+    if r.party_type == "individual":
+        ids["associated_entities"] = [parent.subject_name]
+        stype = "individual"
+    else:
+        stype = "entity"
+        if pids.get("jurisdiction"):
+            ids["jurisdiction"] = pids["jurisdiction"]
+        ids["_skip_related"] = True  # one level at a time; analysts can run a full screening separately
+    fixtures = None
+    if fx_name:
+        p = FIXTURE_DIR / f"{re.sub(r'[^a-z0-9_]', '', fx_name)}.json"
+        if not p.exists():
+            raise HTTPException(404, "Unknown fixture set")
+        from ..providers.base import RawItem
+        fixtures = [RawItem(**it) for it in json.loads(p.read_text())["items"]]
+    c = Screening(id=engine.new_id(), subject_type=stype, subject_name=r.name, identifiers=ids, created_by=user.username,
+                  stage="Queued", test_mode=bool(fixtures))
+    db.add(c)
+    r.child_screening_id = c.id
+    db.commit()
+    audit.append(db, user.username, "screening.created", c.id, {"subject_type": stype, "parent_screening": parent.id,
+                                                                "related_party_id": r.id, "role": r.role,
+                                                                "test_mode": bool(fixtures)})
+    audit.append(db, user.username, "related_party.screened", parent.id, {"related_party_id": r.id, "name": r.name,
+                                                                          "child_screening_id": c.id})
+    engine.start(c.id, fixtures)
+    return {"id": c.id, "related_party": related_out(r, c)}
 
 
 @router.post("/screenings/{sid}/rerun")
@@ -486,7 +636,8 @@ def get_policy(user: User = Depends(current_user), db: Session = Depends(get_db)
 
 @router.put("/admin/policy")
 def put_policy(body: dict, user: User = Depends(ADMIN), db: Session = Depends(get_db)):
-    allowed = {"coverage", "red_rules", "identity_weights", "identity_levels", "fetch", "historical_years", "retention_days", "gdelt_timespan"}
+    allowed = {"coverage", "red_rules", "identity_weights", "identity_levels", "fetch", "historical_years", "retention_days",
+               "gdelt_timespan", "lookback_years", "related_parties"}
     bad = set(body) - allowed
     if bad:
         raise HTTPException(422, f"Unknown policy keys: {sorted(bad)}")
@@ -496,6 +647,8 @@ def put_policy(body: dict, user: User = Depends(ADMIN), db: Session = Depends(ge
         raise HTTPException(422, "min_core_ok must be ≥ 1 (failed research can never be GREEN)")
     if not 30 <= int(merged["retention_days"]) <= 3650:
         raise HTTPException(422, "retention_days must be between 30 and 3650")
+    if not 0 <= int(merged["lookback_years"]) <= 30:
+        raise HTTPException(422, "lookback_years must be between 0 (no window) and 30")
     settings_store.save(db, "policy", body, user.username)
     audit.append(db, user.username, "admin.policy_updated", None, {"keys": sorted(body)})
     return {"ok": True}
@@ -529,6 +682,8 @@ def put_taxonomy(body: dict, user: User = Depends(ADMIN), db: Session = Depends(
 def anonymise_screening(db: Session, s: Screening):
     for f in list(s.findings):
         db.delete(f)
+    for r in list(s.related_parties):
+        db.delete(r)
     s.subject_name = "[anonymised]"
     s.identifiers = {}
     s.name_variants = []
@@ -537,7 +692,7 @@ def anonymise_screening(db: Session, s: Screening):
     s.analyst_notes = None
     s.override_reason = "[anonymised]" if s.override_reason else None
     s.coverage = {k: v for k, v in (s.coverage or {}).items() if k != "link_outs"}
-    s.metrics = {k: v for k, v in (s.metrics or {}).items() if k != "raw_index"}
+    s.metrics = {k: v for k, v in (s.metrics or {}).items() if k not in ("raw_index", "summary", "related_discovery")}
     s.provider_runs = [{k: r.get(k) for k in ("id", "name", "status", "results", "core")} for r in (s.provider_runs or [])]
     s.anonymised_at = now()
 

@@ -111,16 +111,16 @@ def extract_text(html: str) -> tuple[str, str | None]:
     return re.sub(r"[ \t]+", " ", text)[:60_000], pub
 
 
-async def fetch_article(client: httpx.AsyncClient, url: str, *, timeout: float = 8, max_bytes: int = 1_500_000) -> dict:
-    """Returns {ok, text, final_url, note, published}. Never raises."""
+async def fetch_html(client: httpx.AsyncClient, url: str, *, timeout: float = 8, max_bytes: int = 1_500_000,
+                     accept: str = "text/html,application/xhtml+xml") -> dict:
+    """Returns {ok, html, final_url, note}. Same SSRF / robots / size / no-bypass controls. Never raises."""
     cur = url
     try:
         for _hop in range(4):
             await check_url(cur)
             if not await robots_allowed(client, cur):
                 return {"ok": False, "note": "robots.txt disallows automated access — headline/snippet only"}
-            async with client.stream("GET", cur, headers={"User-Agent": settings.user_agent,
-                                                          "Accept": "text/html,application/xhtml+xml"},
+            async with client.stream("GET", cur, headers={"User-Agent": settings.user_agent, "Accept": accept},
                                      timeout=timeout, follow_redirects=False) as r:
                 if r.status_code in (301, 302, 303, 307, 308):
                     loc = r.headers.get("location")
@@ -140,12 +140,7 @@ async def fetch_article(client: httpx.AsyncClient, url: str, *, timeout: float =
                     buf.extend(chunk)
                     if len(buf) > max_bytes:
                         return {"ok": False, "note": "page exceeds size cap"}
-                html = buf.decode(r.encoding or "utf-8", errors="replace")
-                text, pub = extract_text(html)
-                low = text.lower()
-                paywalled = len(text) < 600 and any(k in low for k in ("subscribe", "sign in", "log in", "subscription"))
-                return {"ok": len(text) > 200 and not paywalled, "text": text, "final_url": cur, "published": pub,
-                        "note": "paywall/login page — not bypassed" if paywalled else None}
+                return {"ok": True, "html": buf.decode(r.encoding or "utf-8", errors="replace"), "final_url": cur, "note": None}
         return {"ok": False, "note": "too many redirects"}
     except FetchBlocked as e:
         return {"ok": False, "note": f"blocked by SSRF policy: {e}"}
@@ -153,3 +148,15 @@ async def fetch_article(client: httpx.AsyncClient, url: str, *, timeout: float =
         return {"ok": False, "note": "timeout"}
     except Exception as e:
         return {"ok": False, "note": f"fetch error: {type(e).__name__}"}
+
+
+async def fetch_article(client: httpx.AsyncClient, url: str, *, timeout: float = 8, max_bytes: int = 1_500_000) -> dict:
+    """Returns {ok, text, final_url, note, published}. Never raises."""
+    r = await fetch_html(client, url, timeout=timeout, max_bytes=max_bytes)
+    if not r["ok"]:
+        return {"ok": False, "note": r["note"]}
+    text, pub = extract_text(r["html"])
+    low = text.lower()
+    paywalled = len(text) < 600 and any(k in low for k in ("subscribe", "sign in", "log in", "subscription"))
+    return {"ok": len(text) > 200 and not paywalled, "text": text, "final_url": r["final_url"], "published": pub,
+            "note": "paywall/login page — not bypassed" if paywalled else None}

@@ -74,3 +74,32 @@ async def analyse(client: httpx.AsyncClient, subject: str, title: str, excerpt: 
         return {"ok": False, "error": f"{type(e).__name__}", "model": settings.llm_model}
     clean, problems = verify(out, (title or "") + " " + excerpt, taxonomy_ids)
     return {"ok": True, "model": settings.llm_model, "result": clean, "verifier_problems": problems}
+
+
+REL_SYSTEM = (
+    "You extract people and companies that own, control or manage a subject company. You receive numbered snippets "
+    "(i, text). Use ONLY the snippets, never outside knowledge. Return strict JSON {\"parties\": [{\"i\": snippet number, "
+    "\"name\": exact name as written in that snippet, \"role\": one of ROLES, \"pct\": ownership percentage exactly as "
+    "written or null, \"detail\": <=15 words}]}. Do not include companies the subject owns. If unsure, omit.")
+
+
+async def extract_related(client: httpx.AsyncClient, subject: str, snippets: list[dict]) -> list[dict]:
+    """Optional LLM pass over ownership/management sentences. The caller re-verifies every name (and %) verbatim
+    against the cited snippet, so the model can only point at text that exists."""
+    if not enabled():
+        return []
+    from ..research.related import ROLES
+    body = {"model": settings.llm_model, "temperature": 0, "response_format": {"type": "json_object"},
+            "messages": [{"role": "system", "content": REL_SYSTEM.replace("ROLES", "|".join(ROLES))},
+                         {"role": "user", "content": json.dumps({"subject": subject,
+                                                                 "snippets": [{"i": i, "text": s["text"]} for i, s in enumerate(snippets)]})}]}
+    try:
+        r = await client.post(settings.llm_base_url.rstrip("/") + "/chat/completions", json=body, timeout=40,
+                              headers={"Authorization": f"Bearer {settings.llm_api_key}"})
+        r.raise_for_status()
+        content = r.json()["choices"][0]["message"]["content"]
+        out = json.loads(re.sub(r"^```(?:json)?|```$", "", content.strip()))
+        parties = out.get("parties") if isinstance(out, dict) else None
+        return [p for p in (parties or []) if isinstance(p, dict)][:60]
+    except Exception:
+        return []

@@ -1,4 +1,4 @@
-# AI Adverse Media Screening Platform — Phase 1 MVP
+# AI Adverse Media Screening Platform — Phase 1 MVP (v2)
 
 Screens an **individual** or an **entity** against legally accessible public sources (news, government and
 regulatory publications, and official registers). It resolves identity with an explainable evidence-points model and
@@ -8,7 +8,7 @@ report. Built for UK AML/KYC analysts, with UK GDPR / DPA 2018 in mind (see `doc
 
 > **Every result comes from a live search.** Nothing is simulated or hardcoded. Labelled synthetic fixtures exist
 > only for tests, and the server only accepts them when `AMS_TEST_MODE=1`, which is ignored when `APP_ENV=production`.
-> The screen and the PDF both show exactly which providers ran, failed or were disabled. A screening whose research
+> The screen and the PDF both show exactly which providers ran or failed. A screening whose research
 > failed or is incomplete can never come out GREEN.
 
 Docs: `docs/ARCHITECTURE.md` (stack and modules) · `docs/MVP_PLAN.md` (methodology, scoring, providers) ·
@@ -47,23 +47,50 @@ Without `DATABASE_URL`, data is stored in `backend/ams_local.db` (SQLite, git-ig
 | `AMS_TEST_MODE` | tests only | Allows labelled fixtures and fault injection. Ignored in production |
 | `AMS_SSRF_ALLOW_CIDRS` | dev only | Extra CIDRs exempted from the SSRF guard (for sandboxes with fake DNS). Ignored in production |
 
-### Providers and what degrades without keys
-| Provider | Key | Notes |
+### Sources (v2)
+| Source | Key | Notes |
 |---|---|---|
-| Google News RSS (9 locales/languages) | none | **Core, required** |
-| GDELT DOC 2.0 | none | Core. Rate-limited, and often slow or timing out, which is reported |
-| Bing News RSS | none | Core |
-| GOV.UK Search API (SFO, FCA-adjacent, HMRC, Insolvency Service, OFSI, CPS press releases) | none | Core |
-| US DOJ press releases API | none | Official |
-| SEC litigation releases RSS | none | Official, recent window only |
-| Companies House | `COMPANIES_HOUSE_API_KEY` (free) | Without it there are no UK register or disqualification checks, and the screen and PDF say so |
-| CourtListener | `COURTLISTENER_API_TOKEN` (free) | Without it there is no US case-law search |
-| NewsAPI / GNews / Brave / Serper / Bing Web | respective keys | Without them, coverage is the free RSS and official sources only |
-| LLM | `LLM_API_KEY` | Without it, rule-based taxonomy and status classification with template summaries (fully deterministic) |
-| OpenSanctions, FCA Register, etc. | — | **Link-outs only.** Not adverse media, and not sanctions or PEP screening |
+| Google News RSS (9 locales/languages) | none | **Core adverse-media source** |
+| Bing News RSS | none | **Core adverse-media source** |
+| GOV.UK Search API, US DOJ press releases, SEC litigation releases | none | Official-record lookups (primary sources, keyless) |
+| Companies House | `COMPANIES_HOUSE_API_KEY` | Runs **only if the key is set**; otherwise it is not shown at all |
+| LLM | `LLM_API_KEY` | Optional. Rewrites the consolidated summary; every sentence must cite a fact and every number must exist in the facts, otherwise the rule-based summary is kept |
+| GDELT, NewsAPI, GNews, Brave, Serper, Bing Web, CourtListener | — | Code kept but **off by default and hidden**. An operator can re-enable with `AMS_EXTRA_PROVIDERS=gdelt,newsapi,…` (keyed ones still need their key) |
+| OpenSanctions, FCA Register, OpenCorporates, GLEIF, OpenOwnership | — | **Link-outs only** (manual checks). Not machine-searched |
 
-Coverage rule: GREEN requires `google_news` plus at least 2 core providers to succeed. Anything less makes the
-screening "incomplete" (AMBER), or FAILED if no provider succeeded.
+Inactive providers never produce "disabled / no key" rows anywhere (UI, PDF, API).
+
+Coverage rule: GREEN requires both Google News and Bing News to succeed (`policy.json → coverage.min_core_ok = 2`).
+Anything less is "incomplete" (AMBER + a "Coverage incomplete" chip on the verdict banner), or FAILED if nothing succeeded.
+
+### Date window
+Default look-back is **5 years** (`policy.json → lookback_years`, editable by admins; per screening via the
+"Date window" selector, 1–20 years or "No date limit"). Relevant items published before the window start are moved
+to an **Outside date window** bucket: shown for context, excluded from the RAG status. The window is shown on the
+verdict banner, the Sources tab and the PDF.
+
+### Results page (v2)
+Full-width verdict banner (GREEN / AMBER / RED / FAILED, label, one-line reason, window and coverage chips), then tabs:
+**Overview** (consolidated summary, triage, rating reasons) · **Findings** (review / mitigating / outside window / low,
+filters, bulk decisions) · **Related parties** · **Sources** (provider runs, queries, manual link-outs, sanctions/PEP
+reference) · **Audit / decision** (override, close, notes, case audit trail).
+
+### Related-party background search (entities)
+Runs alongside the media search for entity screenings, using keyless public sources that permit automated access:
+the company's own website (governance / shareholders / management pages, robots.txt respected), Wikipedia (exact
+article titles only, via the REST endpoint; `/w/` is robots-disallowed), and Google/Bing News RSS. Wikidata and
+OpenCorporates are robots-blocked, so they are offered as manual links instead.
+- Every lead carries **source URL(s), a verbatim quote, a confidence level** (high = company's own site, medium =
+  Wikipedia infobox / several sources, low = single news mention or ownership chain) and is labelled **Unverified**.
+- **No hallucination:** a name is kept only if it appears verbatim in the fetched text it cites (the grounding check
+  runs after extraction). Extraction is rule-based; if `LLM_API_KEY` is set, an optional LLM pass may add
+  leads, but only if the name occurs verbatim in the snippet it cites, and those are always low confidence.
+- Ownership chains are followed up to `chain_depth` (default 2), e.g. a holding company's own Wikipedia article.
+- Nothing is hard-coded for any company.
+- Analysts can **add parties manually**, edit a name, confirm or dismiss, and **Screen** one with one click. That creates a
+  linked child screening; its RAG appears in the table. The parent shows its own RAG and the **highest related-party
+  RAG** separately, and the decision note and close-case audit record the related-party hits. All actions are audited and
+  the parties are included in the PDF.
 
 ## Tests
 ```bash

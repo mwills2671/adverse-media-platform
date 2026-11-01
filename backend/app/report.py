@@ -101,11 +101,14 @@ def build_pdf(s: dict, exported_by: str) -> bytes:
                   colWidths=[30 * mm])
     badge.setStyle(TableStyle([("BACKGROUND", (0, 0), (-1, -1), STATUS_COLOUR.get(st, colors.grey)), ("ALIGN", (0, 0), (-1, -1), "CENTER")]))
     ids = s.get("identifiers") or {}
+    m0 = s.get("metrics") or {}
     info = [["Screening ID", s["id"]], ["Subject", f"{s['subject_name']} ({s['subject_type']})"],
             ["Identifiers supplied", "; ".join(f"{k.replace('_', ' ')}: {', '.join(v) if isinstance(v, list) else v}" for k, v in ids.items()) or "None"],
             ["Screened", f"{s.get('created_at', '')[:19].replace('T', ' ')} UTC by {s['created_by']}"],
             ["Automated status", s.get("auto_status") or "—"],
             ["Final status", st + (f" (override by {s['override_by']}: {s['override_reason']})" if s.get("override_status") else "")],
+            ["Date window", (f"Last {m0.get('lookback_years')} years (published on/after {m0.get('window_start')}); older items "
+                             "are listed separately and do not drive the status") if m0.get("lookback_years") else "No date window"],
             ["Analysis mode", s.get("analysis_mode")], ["Case state", f"{s['review_state']}" + (f" — {s['disposition']} by {s['reviewed_by']}" if s.get("disposition") else "")],
             ["Result hash (SHA-256)", s.get("result_hash") or "—"]]
     if s.get("test_mode"):
@@ -115,6 +118,22 @@ def build_pdf(s: dict, exported_by: str) -> bytes:
     if cov.get("incomplete") or st == "FAILED":
         el += [Spacer(1, 4), p("<b>INCOMPLETE RESEARCH:</b> " + escape("; ".join(cov.get("notes") or [])) +
                                " — this result must not be treated as clear.", ParagraphStyle("w", parent=B, textColor=colors.HexColor("#b45309")), raw=True)]
+    if s.get("parent"):
+        pa = s["parent"]
+        el += [Spacer(1, 3), p(f"Related-party screening of {pa.get('role', 'related party')} of {pa.get('subject_name')} "
+                               f"(parent screening {pa.get('screening_id')}).", S)]
+    sm = m0.get("summary") or {}
+    if sm:
+        el += [p("Consolidated summary", H2), p(f"<b>{escape(sm.get('label', st))}</b> — {escape(sm.get('one_line', ''))}", raw=True)]
+        if sm.get("llm_text"):
+            el += [p(sm["llm_text"]), p("LLM-written summary, verified: every sentence cites the rule-based facts below.", S)]
+        for para in sm.get("paragraphs") or []:
+            el.append(p(para))
+        for fct in sm.get("facts") or []:
+            el.append(p(f"[{fct.get('n')}] {fct.get('text', '')}", S))
+    rs = s.get("related_summary") or {}
+    if rs.get("overall_note"):
+        el += [Spacer(1, 3), p("<b>Related parties:</b> " + escape(rs["overall_note"]), raw=True)]
     el += [p("Reasons", H2)] + [p("• " + r) for r in s.get("auto_reasons") or []]
     el += [p("Narrative", H2), p(s.get("narrative") or "—")]
     if s.get("analyst_notes"):
@@ -147,6 +166,31 @@ def build_pdf(s: dict, exported_by: str) -> bytes:
             rows.append([p(f["rank"] + 1, S), p(f["title"][:160], S), p(f.get("source_name") or f.get("domain"), S),
                          p(f["identity_level"], S), p("; ".join(f.get("relevance_reasons") or [])[:200], S)])
         el.append(_tbl(rows, [8 * mm, 78 * mm, 30 * mm, 18 * mm, 41 * mm]))
+    old = [f for f in fs if f["bucket"] == "outside_window"]
+    if old:
+        el += [p(f"Outside the date window ({len(old)}) — older than {m0.get('window_start')}; context only", H2)]
+        rows = [["#", "Title", "Source", "Published", "Category"]]
+        for f in old[:60]:
+            rows.append([p(f["rank"] + 1, S), p(f["title"][:160], S), p(f.get("source_name") or f.get("domain"), S),
+                         p(f.get("published_at") or "", S), p(f.get("primary_category") or "", S)])
+        el.append(_tbl(rows, [8 * mm, 85 * mm, 32 * mm, 22 * mm, 28 * mm]))
+    rp = s.get("related_parties") or []
+    el += [p(f"Related parties ({len(rp)}) — directors, board, management, shareholders, UBOs, intermediaries", H2),
+           p("Auto-discovered parties are UNVERIFIED leads extracted from the cited public sources and need analyst "
+             "confirmation. Screening RAG shows the linked child screening, kept separate from the subject's own status.", S)]
+    if rp:
+        rows = [["Name", "Type / role", "%", "Conf.", "State", "Screening", "Source"]]
+        for r in rp[:120]:
+            ev = (r.get("evidence") or [{}])[0]
+            ch = r.get("child") or {}
+            rows.append([p(r["name"] + (" (partial name)" if r.get("partial_name") else ""), S),
+                         p(f"{r['party_type']} · {r.get('role_label')}" + (f" via {r['via']}" if r.get("via") else ""), S),
+                         p(r.get("ownership_pct") or "", S), p(r["confidence"], S), p(r["state"], S),
+                         p((ch.get("final_status") or ch.get("job_status") or "") + (f" {ch.get('id')}" if ch else "not screened"), S),
+                         p((ev.get("source") or "manual") + (": " + ev["url"][:90] if ev.get("url") else ""), S)])
+        el.append(_tbl(rows, [32 * mm, 30 * mm, 11 * mm, 13 * mm, 17 * mm, 27 * mm, 45 * mm]))
+    else:
+        el.append(p("None recorded.", S))
     lo = cov.get("link_outs") or {}
     el += [p("Manual checks — link-outs (not machine-searched)", H2)]
     for l in lo.get("adverse_media_manual", []):

@@ -24,7 +24,7 @@ class BingNews(Provider):
     kind = "news-search"
     core = True
     concurrency = 2
-    coverage_note = ("Bing News RSS search (English risk-term groups). Bing may serve an empty non-RSS page to "
+    coverage_note = ("Bing News RSS search (English risk-term groups; date window applied after retrieval). Bing may serve an empty non-RSS page to "
                      "cloud/datacenter IPs; that is reported as a failure, not as 'no results'.")
 
     def plan(self, ctx):

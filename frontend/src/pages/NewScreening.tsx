@@ -43,6 +43,8 @@ export default function NewScreening() {
   const [faults, setFaults] = useState<Record<string, boolean>>({});
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
+  const [lookback, setLookback] = useState<string>("");
+  const lbDefault = meta?.lookback_years ?? 5;
   const fields = type === "individual" ? IND : ENT;
 
   const submit = async (e: FormEvent) => {
@@ -54,6 +56,7 @@ export default function NewScreening() {
       identifiers[f.key] = f.list ? v.split(/[\n,;]+/).map(s => s.trim()).filter(Boolean) : v;
     }
     const body: any = { subject_type: type, name: name.trim(), identifiers };
+    if (lookback !== "") body.lookback_years = Number(lookback);
     if (meta?.test_mode) {
       if (fixture) body.test_fixture_set = fixture;
       const fi = Object.fromEntries(Object.entries(faults).filter(([, v]) => v).map(([k]) => [k, "simulated outage"]));
@@ -79,6 +82,18 @@ export default function NewScreening() {
         <label className="label" htmlFor="name">{type === "individual" ? "Full name" : "Legal / registered name"} *</label>
         <input id="name" className="input text-base" required minLength={2} maxLength={200} value={name} onChange={e => setName(e.target.value)}
           placeholder={type === "individual" ? "e.g. Bernard L. Madoff" : "e.g. Wirecard AG"} />
+      </div>
+      <div className="grid sm:grid-cols-2 gap-3 items-end">
+        <div>
+          <label className="label" htmlFor="lb">Date window (look-back)</label>
+          <select id="lb" className="input" value={lookback} onChange={e => setLookback(e.target.value)}>
+            <option value="">Last {lbDefault} years (default)</option>
+            {[1, 2, 3, 5, 7, 10, 15, 20].filter(n => n !== lbDefault).map(n => <option key={n} value={n}>Last {n} years</option>)}
+            <option value="0">No date limit</option>
+          </select>
+        </div>
+        <p className="text-xs text-slate-500 pb-1">Articles published before the window are listed separately as context and do not drive the RAG status.
+          {type === "entity" && " Entity screenings also search public sources for directors, board, shareholders and UBOs."}</p>
       </div>
       <div className="border rounded-md">
         <button type="button" className="w-full flex justify-between items-center px-3 py-2 text-sm font-medium" aria-expanded={open} onClick={() => setOpen(!open)}>
@@ -117,11 +132,11 @@ export default function NewScreening() {
       </div>
     </form>
     {meta && <details className="mt-4 card p-4 text-sm">
-      <summary className="cursor-pointer font-medium">Sources that will be searched ({meta.providers.filter(p => p.enabled).length} available)</summary>
+      <summary className="cursor-pointer font-medium">Sources that will be searched ({meta.providers.length})</summary>
       <ul className="mt-2 space-y-1">
         {meta.providers.map(p => <li key={p.id} className="flex gap-2">
-          <span className={`chip ${p.enabled ? "bg-green-100 text-green-800" : "bg-slate-100 text-slate-500"}`}>{p.enabled ? "on" : "off"}</span>
-          <span><b>{p.name}</b>{p.core ? " (core)" : ""} — <span className="text-slate-600">{p.enabled ? p.coverage_note : (p.requires_key ? `Not searched — set ${p.requires_key}` : "Disabled")}</span></span>
+          <span className={`chip ${p.core ? "bg-indigo-100 text-indigo-800" : "bg-slate-100 text-slate-600"}`}>{p.core ? "media" : "official"}</span>
+          <span><b>{p.name}</b> — <span className="text-slate-600">{p.coverage_note}</span></span>
         </li>)}
       </ul>
     </details>}

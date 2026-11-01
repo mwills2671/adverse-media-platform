@@ -38,7 +38,8 @@ export default function App() {
   const link = ({ isActive }: { isActive: boolean }) =>
     `block px-3 py-2 rounded text-sm font-medium ${isActive ? "bg-indigo-800 text-white" : "text-indigo-100 hover:bg-indigo-800/60"}`;
   return <AuthCtx.Provider value={{ user, meta, setUser, can }}>
-    <header className="bg-indigo-900 text-white">
+    <div className="bg-app min-h-screen">
+    <header className="bg-gradient-to-r from-indigo-950 via-indigo-900 to-indigo-800 text-white shadow">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 flex items-center justify-between h-14">
         <Link to="/" className="font-semibold tracking-tight flex items-center gap-2">
           <span className="bg-white text-indigo-900 rounded px-1.5 py-0.5 text-xs font-black">AMS</span>
@@ -83,5 +84,6 @@ export default function App() {
       Results reflect only the sources searched on the screening date and support — not replace — analyst judgement.
       Sanctions/PEP screening is a separate process.
     </footer>
+    </div>
   </AuthCtx.Provider>;
 }

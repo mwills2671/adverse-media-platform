@@ -6,7 +6,16 @@ from .analysis.taxonomy import SEV_RANK
 STATUS_RANK = {"RED": 3, "AMBER": 2, "GREEN": 1, "FAILED": 0}
 
 
-def classify(f: dict, policy: dict, subject_type: str) -> dict:
+def outside_window(f: dict, window_start: str | None) -> str | None:
+    """Returns the publication year when the item is dated before the look-back window start, else None.
+    Undated items are kept in scope (and labelled 'date unknown' by the UI) — never silently dropped."""
+    pub = (f.get("published_at") or "")[:10]
+    if window_start and len(pub) >= 4 and pub[:4].isdigit() and pub < window_start:
+        return pub[:4]
+    return None
+
+
+def classify(f: dict, policy: dict, subject_type: str, window_start: str | None = None) -> dict:
     """Mutates and returns finding dict f with relevant/bucket/material and reasons."""
     R = policy["red_rules"]
     reasons: list[str] = []
@@ -39,7 +48,13 @@ def classify(f: dict, policy: dict, subject_type: str) -> dict:
         reasons.append(f"Identity {f['identity']['label']}: {f['identity']['reason']}")
     else:
         bucket = "review"
+    old = outside_window(f, window_start)
+    if old and bucket in ("review", "mitigating"):
+        bucket = "outside_window"
+        n = policy.get("lookback_years", 5)
+        reasons.append(f"Outside the {n}-year look-back window (published {old}) — shown for context, excluded from the rating")
     f["bucket"] = bucket
+    f["outside_window"] = bool(old)
     f["relevance_reasons"] = reasons
     f["common_name_unresolved"] = bool(relevant and f["identity"].get("common_name") and idl == "unlikely"
                                        and f["event_status"] not in MITIGATING)
@@ -54,7 +69,7 @@ def classify(f: dict, policy: dict, subject_type: str) -> dict:
     sev = max((SEV_RANK[c["severity"]] for c in cats), default=0)
     sources = f.get("independent_sources", 1)
     checks = [
-        rule(bucket == "review", "Relevant, unresolved and not mitigated"),
+        rule(bucket == "review", "Relevant, unresolved, not mitigated and inside the look-back window"),
         rule(sev >= SEV_RANK[R["red_min_severity"]], f"Category severity ≥ {R['red_min_severity']}"),
         rule(LEVEL_RANK.get(idl, 0) >= LEVEL_RANK[R["red_min_identity"]], f"Identity ≥ {R['red_min_identity']} (is {idl})"),
         rule(f["implication"] == "direct" or not R.get("require_direct_implication", True), "Subject directly implicated"),
@@ -75,19 +90,20 @@ def coverage(runs: list[dict], policy: dict) -> dict:
     succeeded = [r["id"] for r in core if r["status"] in ("ok", "partial")]
     failed = [r["id"] for r in core if r["status"] not in ("ok", "partial")]
     missing_required = [p for p in C["required_core"] if p not in succeeded]
-    incomplete = len(succeeded) < C["min_core_ok"] or bool(missing_required)
+    min_ok = min(C["min_core_ok"], len(core)) if core else C["min_core_ok"]
+    incomplete = len(succeeded) < min_ok or bool(missing_required)
     notes = []
     if failed:
         notes.append("Core provider(s) unavailable: " + ", ".join(failed))
     if missing_required:
         notes.append("Required provider failed: " + ", ".join(missing_required))
-    if len(succeeded) < C["min_core_ok"]:
-        notes.append(f"Only {len(succeeded)} of {len(core)} core providers succeeded (minimum {C['min_core_ok']})")
+    if len(succeeded) < min_ok:
+        notes.append(f"Only {len(succeeded)} of {len(core)} core providers succeeded (minimum {min_ok})")
     partial = [r["id"] for r in runs if r["status"] == "partial"]
     if partial:
         notes.append("Partial results (some queries failed): " + ", ".join(partial))
     return {"core_total": len(core), "core_ok": len(succeeded), "core_succeeded": succeeded, "core_failed": failed,
-            "incomplete": incomplete, "failed": len(succeeded) == 0, "notes": notes,
+            "incomplete": incomplete, "failed": len(succeeded) == 0, "notes": notes, "partial": partial,
             "keyed_disabled": [r["id"] for r in runs if r["status"] == "disabled-no-key"]}
 
 
@@ -118,4 +134,7 @@ def overall(findings: list[dict], cov: dict) -> tuple[str, list[str]]:
     mit = [f for f in findings if f["bucket"] == "mitigating"]
     if mit:
         reasons.append(f"{len(mit)} mitigating/resolved matter(s) noted")
+    old = [f for f in findings if f["bucket"] == "outside_window"]
+    if old:
+        reasons.append(f"{len(old)} relevant item(s) older than the look-back window excluded from the rating (shown for context)")
     return status, reasons

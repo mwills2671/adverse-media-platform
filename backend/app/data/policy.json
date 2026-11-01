@@ -1,25 +1,76 @@
 {
- "version": 1,
- "coverage": {"core_providers": ["google_news", "gdelt", "bing_news", "govuk"], "min_core_ok": 2, "required_core": ["google_news"]},
+ "version": 2,
+ "coverage": {
+  "core_providers": [
+   "google_news",
+   "bing_news"
+  ],
+  "min_core_ok": 2,
+  "required_core": [
+   "google_news"
+  ]
+ },
  "red_rules": {
   "red_min_severity": "high",
   "red_min_identity": "probable",
   "red_max_tier": 2,
   "red_min_corroboration": 2,
-  "red_statuses": ["conviction", "regulatory_finding", "enforcement_action", "formal_charge", "settlement", "civil_regulatory_proceeding", "investigation", "appeal"],
+  "red_statuses": [
+   "conviction",
+   "regulatory_finding",
+   "enforcement_action",
+   "formal_charge",
+   "settlement",
+   "civil_regulatory_proceeding",
+   "investigation",
+   "appeal"
+  ],
   "allegation_red_min_sources": 3,
   "require_direct_implication": true
  },
  "identity_weights": {
-  "name_exact": 30, "name_exact_entity": 35, "name_fuzzy": 20, "alias_exact": 25, "name_partial": 5,
-  "birth_year_match": 30, "age_consistent": 25, "country_match": 10, "country_cap": 20,
-  "associate_match": 15, "associate_cap": 30, "reg_number_match": 40, "address_match": 20, "suffix_match": 5,
-  "contra_age": -40, "contra_reg_number": -40, "contra_middle_name": -20, "contra_legal_form": -10, "contra_geography": -10,
+  "name_exact": 30,
+  "name_exact_entity": 35,
+  "name_fuzzy": 20,
+  "alias_exact": 25,
+  "name_partial": 5,
+  "birth_year_match": 30,
+  "age_consistent": 25,
+  "country_match": 10,
+  "country_cap": 20,
+  "associate_match": 15,
+  "associate_cap": 30,
+  "reg_number_match": 40,
+  "address_match": 20,
+  "suffix_match": 5,
+  "contra_age": -40,
+  "contra_reg_number": -40,
+  "contra_middle_name": -20,
+  "contra_legal_form": -10,
+  "contra_geography": -10,
   "common_name_penalty": -10
  },
- "identity_levels": {"confirmed_min": 80, "probable_min": 50, "possible_min": 20},
- "fetch": {"max_articles": 25, "timeout_s": 8, "max_bytes": 1500000, "excerpt_chars": 1200},
+ "identity_levels": {
+  "confirmed_min": 80,
+  "probable_min": 50,
+  "possible_min": 20
+ },
+ "fetch": {
+  "max_articles": 25,
+  "timeout_s": 8,
+  "max_bytes": 1500000,
+  "excerpt_chars": 1200
+ },
  "historical_years": 6,
  "retention_days": 1825,
- "gdelt_timespan": ""
+ "gdelt_timespan": "",
+ "lookback_years": 5,
+ "related_parties": {
+  "enabled": true,
+  "max_pages": 10,
+  "max_news_articles": 8,
+  "chain_depth": 2,
+  "timeout_s": 45,
+  "ubo_threshold_pct": 25
+ }
 }

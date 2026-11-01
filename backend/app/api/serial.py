@@ -1,4 +1,13 @@
-from ..models import Finding, Screening
+from sqlalchemy import select
+from sqlalchemy.orm import object_session
+
+from ..models import Finding, RelatedParty, Screening
+
+RAG_RANK = {"RED": 4, "AMBER": 3, "FAILED": 2, "GREEN": 1}
+ROLE_LABEL = {"director": "Director", "board_member": "Board member", "executive": "Executive / management",
+              "shareholder": "Shareholder", "intermediary": "Intermediate shareholder", "ubo": "UBO (reported)",
+              "owner": "Owner", "parent": "Parent company", "founder": "Founder", "related_person": "Related person",
+              "other": "Other"}
 
 
 def _dt(d):
@@ -28,8 +37,8 @@ def screening_summary(s: Screening) -> dict:
             "override_status": s.override_status, "incomplete": s.incomplete, "review_state": s.review_state,
             "disposition": s.disposition, "created_by": s.created_by, "created_at": _dt(s.created_at),
             "completed_at": _dt(s.completed_at), "duration_s": s.duration_s, "test_mode": s.test_mode,
-            "anonymised": bool(s.anonymised_at),
-            "counts": {k: (s.metrics or {}).get(k, 0) for k in ("review", "mitigating", "low", "material")}}
+            "anonymised": bool(s.anonymised_at), "parent_id": ((s.identifiers or {}).get("_parent") or {}).get("screening_id"),
+            "counts": {k: (s.metrics or {}).get(k, 0) for k in ("review", "mitigating", "low", "material", "outside_window")}}
 
 
 def screening_out(s: Screening, with_findings: bool = True) -> dict:
@@ -42,7 +51,46 @@ def screening_out(s: Screening, with_findings: bool = True) -> dict:
           "override_at": _dt(s.override_at), "narrative": s.narrative, "narrative_mode": s.narrative_mode,
           "analysis_mode": s.analysis_mode, "metrics": m, "analyst_notes": s.analyst_notes, "reviewed_by": s.reviewed_by,
           "reviewed_at": _dt(s.reviewed_at), "result_hash": s.result_hash, "anonymised_at": _dt(s.anonymised_at),
-          "error": "Internal error — see server logs" if s.error else None}
+          "error": "Internal error — see server logs" if s.error else None,
+          "lookback_years": (s.identifiers or {}).get("_lookback_years", m.get("lookback_years")),
+          "parent": (s.identifiers or {}).get("_parent")}
+    rb = related_block(s)
+    d["related_parties"], d["related_summary"] = rb["items"], rb["summary"]
     if with_findings:
         d["findings"] = [finding_out(f) for f in s.findings]
     return d
+
+
+def related_out(r: RelatedParty, child: Screening | None) -> dict:
+    return {"id": r.id, "name": r.name, "party_type": r.party_type, "role": r.role, "role_label": ROLE_LABEL.get(r.role, r.role),
+            "role_detail": r.role_detail, "ownership_pct": r.ownership_pct, "via": r.via, "depth": r.depth,
+            "confidence": r.confidence, "evidence": r.evidence or [], "partial_name": r.partial_name, "origin": r.origin,
+            "state": r.state, "note": r.note, "added_by": r.added_by, "created_at": _dt(r.created_at),
+            "verification": "Manually added by analyst" if r.origin == "manual" else
+            "Unverified — extracted from public sources; requires analyst confirmation",
+            "child_screening_id": r.child_screening_id,
+            "child": None if not child else {"id": child.id, "job_status": child.job_status, "final_status": child.final_status,
+                                             "auto_status": child.auto_status, "stage": child.stage}}
+
+
+def related_block(s: Screening) -> dict:
+    db = object_session(s)
+    rows = list(s.related_parties)
+    ids = [r.child_screening_id for r in rows if r.child_screening_id]
+    kids = {c.id: c for c in db.execute(select(Screening).where(Screening.id.in_(ids))).scalars()} if ids and db else {}
+    out = [related_out(r, kids.get(r.child_screening_id)) for r in rows]
+    done = [o["child"] for o in out if o["child"] and o["child"]["job_status"] in ("completed", "failed") and o["state"] != "dismissed"]
+    highest = max((c["final_status"] for c in done if c["final_status"]), key=lambda x: RAG_RANK.get(x, 0), default=None)
+    hits = [{"name": o["name"], "role": o["role_label"], "status": o["child"]["final_status"], "screening_id": o["child"]["id"]}
+            for o in out if o["child"] and o["child"]["final_status"] in ("RED", "AMBER", "FAILED") and o["state"] != "dismissed"]
+    subj = s.final_status or s.auto_status
+    note = None
+    if hits:
+        note = (f"Subject rated {subj}; related-party screening found {len(hits)} non-green result(s) (highest {highest}): " +
+                ", ".join(f"{h['name']} ({h['role']}, {h['status']})" for h in hits[:6]) +
+                ". Consider these in the decision.")
+    elif done:
+        note = f"Subject rated {subj}; {len(done)} related part(ies) screened — all GREEN."
+    return {"items": out, "summary": {"total": len(out), "screened": len(ids), "completed": len(done), "highest": highest,
+                                      "hits": hits, "overall_note": note,
+                                      "pending": sum(1 for o in out if o["child"] and o["child"]["job_status"] not in ("completed", "failed"))}}

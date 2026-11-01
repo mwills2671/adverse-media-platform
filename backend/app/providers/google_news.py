@@ -56,12 +56,13 @@ class GoogleNews(Provider):
     kind = "news-aggregator"
     core = True
     concurrency = 5
-    coverage_note = ("Google News RSS search across 9 locales (en-GB, en-US, fr, de, es, it, pt, nl, ar). Returns up to "
+    coverage_note = ("Google News RSS search (date window applied with after:) across 9 locales (en-GB, en-US, fr, de, es, it, pt, nl, ar). Returns up to "
                      "~100 recent-biased headlines per query; links are Google redirect URLs (publisher shown from feed).")
 
     def plan(self, ctx):
         names = ctx.search_names[:3]
-        nc = name_clause(names)
+        # Google News honours the after: operator, so the date window is applied at source as well as post-hoc.
+        nc = name_clause(names) + (f" after:{ctx.window_start}" if ctx.window_start else "")
         qs = [{"q": nc, "loc": LOCALES[0], "group": "name-only"}]
         for hl in LOCALES[:2]:
             for g, terms in english_groups(ctx.taxonomy).items():

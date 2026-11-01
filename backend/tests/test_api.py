@@ -21,9 +21,20 @@ def test_fixture_red_with_corroboration_and_mitigation(admin):
     mat = [f for f in d["findings"] if f["material"]]
     assert mat and all(f["identity_level"] in ("probable", "confirmed") for f in mat)
     assert mat[0]["independent_sources"] >= 2  # syndicated copies clustered and counted as corroboration
-    assert any(f["bucket"] == "mitigating" for f in d["findings"])           # acquittal
+    old = [f for f in d["findings"] if f["bucket"] == "outside_window"]   # 2019 acquittal is older than the 5-year window
+    assert old and old[0]["published_at"].startswith("2019") and d["metrics"]["lookback_years"] == 5
     assert any(f["bucket"] == "low" and f["implication"] == "bystander" for f in d["findings"])  # victim
     assert all(".example/" in f["url"] for f in d["findings"])               # fixtures are never real-looking sources
+
+
+def test_lookback_window_configurable(admin):
+    d = screen(admin, HQB | {"test_fixture_set": "mixed_individual", "lookback_years": 10})
+    assert d["lookback_years"] == 10 and d["metrics"]["window_start"].startswith(str(int(d["created_at"][:4]) - 10))
+    assert any(f["bucket"] == "mitigating" for f in d["findings"])           # acquittal now inside the window
+    assert not any(f["bucket"] == "outside_window" for f in d["findings"])
+    sm = d["metrics"]["summary"]
+    assert sm["verdict"] == "RED" and sm["one_line"] and sm["window"]["lookback_years"] == 10
+    assert admin.post("/api/screenings", json=HQB | {"lookback_years": 99}).status_code == 422
 
 
 def test_fixture_green_clean(admin):

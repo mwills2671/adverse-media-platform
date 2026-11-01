@@ -12,18 +12,18 @@ from datetime import date, datetime, timezone
 
 import httpx
 
-from . import audit, narrative, scoring
+from . import audit, narrative, scoring, summary as summary_mod
 from .analysis import identity as ident
 from .analysis import llm as llm_mod
 from .analysis.rules import MITIGATING, analyse_text, build_excerpt, extract_dates, temporal
 from .analysis.taxonomy import SEV_RANK, match_categories, not_material
 from .config import settings
 from .db import SessionLocal
-from .models import Finding, Screening, now
+from .models import Finding, RelatedParty, Screening, now
 from .providers.base import RawItem, SearchContext
 from .providers.linkouts import link_outs
-from .providers.registry import ALL_PROVIDERS
-from .research import credibility, dedupe, fetcher
+from .providers.registry import active_providers
+from .research import credibility, dedupe, fetcher, related as related_mod
 from .research.names import expand_entity, expand_individual, fold
 from .settings_store import get_policy, get_taxonomy
 
@@ -31,6 +31,14 @@ STAGES = ["Normalising input & expanding name variants", "Planning queries", "Se
           "De-duplicating & clustering", "Retrieving accessible article text", "Analysing relevance, identity & events",
           "Scoring & triage", "Writing narrative & finalising"]
 _tasks: set[asyncio.Task] = set()
+_slots: asyncio.Semaphore | None = None  # at most N screenings run at once (free-tier CPU/RAM)
+
+
+def _sem() -> asyncio.Semaphore:
+    global _slots
+    if _slots is None:
+        _slots = asyncio.Semaphore(3)
+    return _slots
 
 
 def new_id() -> str:
@@ -44,7 +52,10 @@ def _stage(db, s: Screening, i: int):
 
 
 def start(screening_id: str, fixtures: list[RawItem] | None = None) -> asyncio.Task:
-    t = asyncio.create_task(run(screening_id, fixtures))
+    async def queued():
+        async with _sem():
+            await run(screening_id, fixtures)
+    t = asyncio.create_task(queued())
     _tasks.add(t)
     t.add_done_callback(_tasks.discard)
     return t
@@ -165,7 +176,7 @@ def summarise(f: dict, subject_type: str) -> str:
 
 
 def rank_key(f):
-    b = {"review": 0, "mitigating": 1, "low": 2}[f["bucket"]]
+    b = {"review": 0, "mitigating": 1, "outside_window": 2, "low": 3}[f["bucket"]]
     sev = max((SEV_RANK[c["severity"]] for c in f["categories"]), default=0)
     return (0 if f["material"] else 1, b, -sev, -ident.LEVEL_RANK.get(f["identity"]["level"], 0), f["tier"],
             -(int((f.get("published_at") or "0000")[:4]) if (f.get("published_at") or "")[:4].isdigit() else 0))
@@ -192,10 +203,13 @@ async def run(screening_id: str, fixtures: list[RawItem] | None = None):
         _stage(db, s, 0)
         variants = variants_for(s.subject_type, s.subject_name, ids)
         s.name_variants = variants
+        lookback = ids.get("_lookback_years")
+        lookback = int(policy.get("lookback_years", 5) if lookback in (None, "") else lookback)
         ctx = SearchContext(s.subject_type, s.subject_name, variants, {k: v for k, v in ids.items() if not k.startswith("_")},
-                            taxonomy, policy, fault)
+                            taxonomy, policy, fault, lookback_years=lookback)
+        window_start = ctx.window_start
         _stage(db, s, 1)
-        providers = [] if fixtures is not None else ALL_PROVIDERS
+        providers = [] if fixtures is not None else active_providers()
         plans = []
         for p in providers:
             ok, _ = p.enabled()
@@ -211,7 +225,14 @@ async def run(screening_id: str, fixtures: list[RawItem] | None = None):
         raw: list[RawItem] = []
         runs: dict[str, dict] = {}
         limits = httpx.Limits(max_connections=30, max_keepalive_connections=10)
+        disc_task = None
+        rp_cfg = policy.get("related_parties") or {}
         async with httpx.AsyncClient(limits=limits, http2=False) as client:
+            if fixtures is None and s.subject_type == "entity" and rp_cfg.get("enabled", True) and not ids.get("_skip_related"):
+                # background search for directors/board/shareholders/UBOs runs concurrently with the media search
+                disc_task = asyncio.create_task(related_mod.discover(
+                    client, s.subject_name, [v["value"] for v in variants if v.get("kind") == "alias"],
+                    ctx.identifiers, policy))
             if fixtures is not None:
                 raw = list(fixtures)
                 runs["test_fixtures"] = {"id": "test_fixtures", "name": "TEST FIXTURES (labelled, test mode only)", "kind": "fixture",
@@ -284,6 +305,13 @@ async def run(screening_id: str, fixtures: list[RawItem] | None = None):
                     await asyncio.wait_for(asyncio.gather(*(fx(u) for u in cands)), timeout=60)
                 except asyncio.TimeoutError:
                     pass
+            discovery = None
+            if disc_task is not None:
+                try:
+                    discovery = await asyncio.wait_for(disc_task, timeout=float(rp_cfg.get("timeout_s", 45)) + 15)
+                except Exception as e:
+                    discovery = {"candidates": [], "sources": [{"source": "discovery", "status": "error", "note": type(e).__name__}],
+                                 "manual_links": related_mod.manual_links(s.subject_name, ctx.identifiers)}
             _stage(db, s, 5)
             findings = [analyse_cluster(c, s.subject_type, s.subject_name, variants, ctx.identifiers, taxonomy, policy, fetched)
                         for c in clusters]
@@ -306,7 +334,7 @@ async def run(screening_id: str, fixtures: list[RawItem] | None = None):
                 s.analysis_mode = "llm-verified" if any(f["analysis_mode"] == "llm-verified" for f in findings) else "rule-based"
         _stage(db, s, 6)
         for f in findings:
-            scoring.classify(f, policy, s.subject_type)
+            scoring.classify(f, policy | {"lookback_years": lookback}, s.subject_type, window_start)
             f["summary"] = f.get("llm_summary") or summarise(f, s.subject_type)
         findings.sort(key=rank_key)
         status, reasons = scoring.overall(findings, cov)
@@ -320,10 +348,32 @@ async def run(screening_id: str, fixtures: list[RawItem] | None = None):
                      "review": sum(f["bucket"] == "review" for f in findings),
                      "mitigating": sum(f["bucket"] == "mitigating" for f in findings),
                      "low": sum(f["bucket"] == "low" for f in findings), "material": sum(f["material"] for f in findings),
+                     "outside_window": sum(f["bucket"] == "outside_window" for f in findings),
+                     "lookback_years": lookback, "window_start": window_start,
                      "raw_index": [{"url": r.url, "provider": r.provider} for r in raw][:3000]}
         s.narrative = narrative.build({"subject_name": s.subject_name, "subject_type": s.subject_type, "id": s.id,
                                        "date": date.today().isoformat(), "n_raw": len(raw), "n_clusters": len(clusters)},
                                       findings, cov, status, reasons)
+        cands = (discovery or {}).get("candidates") or []
+        summ = summary_mod.build({"subject_name": s.subject_name, "n_variants": len(variants), "n_raw": len(raw),
+                                  "n_clusters": len(clusters), "n_fetched": s.metrics["fetched_ok"]},
+                                 findings, cov, status, lookback, window_start, cands)
+        if fixtures is None and llm_mod.enabled():
+            async with httpx.AsyncClient() as c2:
+                summ = await summary_mod.llm_rewrite(c2, summ, s.subject_name)
+        s.metrics = s.metrics | {"summary": summ}
+        if discovery is not None:
+            s.metrics = s.metrics | {"related_discovery": {"sources": discovery.get("sources", []),
+                                                           "manual_links": discovery.get("manual_links", []),
+                                                           "elapsed_s": discovery.get("elapsed_s"), "found": len(cands)}}
+            for c in cands:
+                db.add(RelatedParty(screening_id=s.id, name=c["name"][:300], party_type=c["party_type"], role=c["role"],
+                                    role_detail=(c.get("role_detail") or "")[:300] or None,
+                                    ownership_pct=(str(c["ownership_pct"]) if c.get("ownership_pct") not in (None, "") else None),
+                                    via=c.get("via"), depth=c.get("depth", 1), confidence=c["confidence"],
+                                    evidence=c["evidence"], partial_name=bool(c.get("partial_name")), origin="auto",
+                                    state="candidate", note=("Also: " + ", ".join(r for r in c.get("roles", []) if r != c["role"]))
+                                    if len(c.get("roles", [])) > 1 else None, added_by="system"))
         keep = [f for f in findings if f["implication"] != "not_mentioned" or f["bucket"] != "low"][:400]
         for i, f in enumerate(keep):
             db.add(Finding(screening_id=s.id, rank=i, url=f["url"], title=f["title"][:2000], source_name=(f["source_name"] or "")[:300],
@@ -346,6 +396,10 @@ async def run(screening_id: str, fixtures: list[RawItem] | None = None):
         s.metrics = s.metrics | {"stored_findings": len(keep), "not_mentioned_dropped": len(findings) - len(keep)}
         s.result_hash = result_hash(s, findings, list(runs.values()))
         s.job_status = "completed"
+        if discovery is not None:
+            audit.append(db, s.created_by, "related_parties.discovered", s.id,
+                         {"found": len(cands), "sources": [f"{x.get('source')}: {x.get('status')}" for x in discovery.get("sources", [])][:30],
+                          "note": "unverified candidates from public sources; require analyst confirmation"})
         s.completed_at = now()
         s.duration_s = round(time.monotonic() - t0, 1)
         db.commit()

@@ -73,6 +73,35 @@ class Screening(Base):
     result_hash: Mapped[str | None] = mapped_column(String(64), nullable=True)
     findings: Mapped[list["Finding"]] = relationship(back_populates="screening", cascade="all, delete-orphan",
                                                      order_by="Finding.rank")
+    related_parties: Mapped[list["RelatedParty"]] = relationship(
+        back_populates="screening", cascade="all, delete-orphan", order_by="RelatedParty.id",
+        foreign_keys="RelatedParty.screening_id")
+
+
+class RelatedParty(Base):
+    """A candidate related party (director, board member, shareholder, intermediary, UBO...) of a screened subject.
+    Auto-discovered candidates are UNVERIFIED: every one carries the source URL(s) and verbatim evidence it was
+    extracted from. Analysts can add parties manually, edit/dismiss them, and screen them (linked child screening)."""
+    __tablename__ = "related_parties"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    screening_id: Mapped[str] = mapped_column(ForeignKey("screenings.id", ondelete="CASCADE"), index=True)
+    name: Mapped[str] = mapped_column(String(300))
+    party_type: Mapped[str] = mapped_column(String(16), default="individual")  # individual|entity|family
+    role: Mapped[str] = mapped_column(String(32), default="other")
+    role_detail: Mapped[str | None] = mapped_column(String(300), nullable=True)
+    ownership_pct: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    via: Mapped[str | None] = mapped_column(String(300), nullable=True)  # intermediate owner in the chain
+    depth: Mapped[int] = mapped_column(Integer, default=1)
+    confidence: Mapped[str] = mapped_column(String(16), default="low")  # high|medium|low|manual
+    evidence: Mapped[list] = mapped_column(JSON, default=list)  # [{url, source, method, quote}]
+    partial_name: Mapped[bool] = mapped_column(Boolean, default=False)
+    origin: Mapped[str] = mapped_column(String(16), default="auto")  # auto|manual
+    state: Mapped[str] = mapped_column(String(16), default="candidate")  # candidate|confirmed|dismissed
+    note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    added_by: Mapped[str] = mapped_column(String(64), default="system")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    child_screening_id: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
+    screening: Mapped[Screening] = relationship(back_populates="related_parties", foreign_keys=[screening_id])
 
 
 class Finding(Base):
