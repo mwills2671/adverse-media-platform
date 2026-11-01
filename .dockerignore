@@ -1,0 +1,11 @@
+.git
+.venv
+**/node_modules
+frontend/dist
+**/__pycache__
+**/*.db
+.admin_password*
+.env*
+shots
+docs/live_results
+backend/tests

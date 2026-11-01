@@ -1,0 +1,766 @@
+{
+ "base": "http://localhost:8077",
+ "run_at": "2026-11-01 00:41 GMT",
+ "results": [
+  {
+   "case": "T1_madoff",
+   "name": "Bernard Madoff",
+   "identifiers": {
+    "dob": "1938-04-29",
+    "nationality": "United States"
+   },
+   "expected": "RED",
+   "screening_id": "AMS-20261101-SVOJML",
+   "status": "AMBER",
+   "incomplete": false,
+   "duration_s": 32,
+   "pass": false,
+   "counts": {
+    "review": 64,
+    "mitigating": 0,
+    "low": 348,
+    "material": 0
+   },
+   "providers": [
+    {
+     "id": "google_news",
+     "status": "ok",
+     "results": 497,
+     "error": null
+    },
+    {
+     "id": "gdelt",
+     "status": "failed",
+     "results": 0,
+     "error": "ProviderError: timeout"
+    },
+    {
+     "id": "bing_news",
+     "status": "ok",
+     "results": 10,
+     "error": null
+    },
+    {
+     "id": "govuk",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "doj",
+     "status": "ok",
+     "results": 4,
+     "error": null
+    },
+    {
+     "id": "sec_litigation",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "companies_house",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires COMPANIES_HOUSE_API_KEY"
+    },
+    {
+     "id": "courtlistener",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires COURTLISTENER_API_TOKEN"
+    },
+    {
+     "id": "newsapi",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires NEWSAPI_KEY"
+    },
+    {
+     "id": "gnews",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires GNEWS_API_KEY"
+    },
+    {
+     "id": "brave",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires BRAVE_API_KEY"
+    },
+    {
+     "id": "serper",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires SERPER_API_KEY"
+    },
+    {
+     "id": "bing_web",
+     "status": "disabled",
+     "results": 0,
+     "error": "Not searched: provider disabled"
+    }
+   ],
+   "reasons": [
+    "64 finding(s) require analyst review",
+    "Coverage note (minimum coverage still met): Core provider(s) unavailable: gdelt"
+   ],
+   "identity_levels_in_review": [
+    "possible",
+    "probable"
+   ],
+   "top_material": [],
+   "top_review": [
+    {
+     "title": "Bernard Madoff, Architect of Largest Ponzi Scheme in History, Is Dead at 82 (Published 2021)",
+     "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5oUkxiOFlFTW5RNVdMVkNVbnZ5LW00WmtLWHI0Mms1TEJWbUd1bWJQcWQ5cnhnUGRfM2p3dkxLdDZ4OXc2MlBXdUI5bENYZmhPdWNpTHVlaEs0c3RzNkU4ZmoxSzlCZXYwMzFkY0U0cnk3TWJtcUE?oc=5",
+     "identity": "probable",
+     "status": "unknown"
+    },
+    {
+     "title": "Bernard Madoff, Ponzi scheme mastermind, dies at 82",
+     "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQOWo0N0drc3h2dVNaLXJ6MGVZUXhYVXBZYlRUZXFpbmptMkN1SVFOejBpc3YwVmc1S0J3MjhnVVI5MlpzbVBlOVFBZHZGRy1nLU1wT0JSSXJZTVp2QXdHZ3JWVW82ZndGOWVMNHBFTVFuUWpvZTBXaTdVVFY3LUJ2SmJzNHBHcHBMWWd5bmRHYzJUSFY2R3FCUtIBngFBVV95cUxQTVp4TE5EMTQ4VjE1STRHeF9oTHZOX3dJQklPZUpqMTdPTHpieHR2MUZpZ2dacWJjOWtvckYzMTNBMDc1bE13SjlTREtfaFhkcDZlUDJTRGdHNHExN2FURnhvVmN1M1c4dUpPRm1oNlZLRVNIVGV6NjlXeFZPYVpfaTdTVzBBbEhsVXg1V2p3R0lMd0p2OGt3TXpwckk2UQ?oc=5",
+     "identity": "probable",
+     "status": "unknown"
+    },
+    {
+     "title": "Department of Justice Begins Third Distribution of Funds Recovered Through Asset Forfeiture to Compensate Victims of Bernard Madoff Fraud Scheme",
+     "url": "https://www.justice.gov/archives/opa/pr/department-justice-begins-third-distribution-funds-recovered-through-asset-forfeiture",
+     "identity": "possible",
+     "status": "conviction"
+    }
+   ],
+   "pdf_ok": true
+  },
+  {
+   "case": "T2_wirecard",
+   "name": "Wirecard AG",
+   "identifiers": {
+    "jurisdiction": "Germany"
+   },
+   "expected": "RED",
+   "screening_id": "AMS-20261101-Q30FCC",
+   "status": "RED",
+   "incomplete": false,
+   "duration_s": 32,
+   "pass": true,
+   "counts": {
+    "review": 123,
+    "mitigating": 0,
+    "low": 119,
+    "material": 2
+   },
+   "providers": [
+    {
+     "id": "google_news",
+     "status": "ok",
+     "results": 321,
+     "error": null
+    },
+    {
+     "id": "gdelt",
+     "status": "failed",
+     "results": 0,
+     "error": "ProviderError: timeout"
+    },
+    {
+     "id": "bing_news",
+     "status": "ok",
+     "results": 31,
+     "error": null
+    },
+    {
+     "id": "govuk",
+     "status": "ok",
+     "results": 1,
+     "error": null
+    },
+    {
+     "id": "doj",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "sec_litigation",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "companies_house",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires COMPANIES_HOUSE_API_KEY"
+    },
+    {
+     "id": "courtlistener",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires COURTLISTENER_API_TOKEN"
+    },
+    {
+     "id": "newsapi",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires NEWSAPI_KEY"
+    },
+    {
+     "id": "gnews",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires GNEWS_API_KEY"
+    },
+    {
+     "id": "brave",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires BRAVE_API_KEY"
+    },
+    {
+     "id": "serper",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires SERPER_API_KEY"
+    },
+    {
+     "id": "bing_web",
+     "status": "disabled",
+     "results": 0,
+     "error": "Not searched: provider disabled"
+    }
+   ],
+   "reasons": [
+    "2 material adverse finding(s) meet all RED rules",
+    "Coverage note (minimum coverage still met): Core provider(s) unavailable: gdelt"
+   ],
+   "identity_levels_in_review": [
+    "possible",
+    "probable"
+   ],
+   "top_material": [
+    {
+     "title": "Covert cameras and alleged hacking: how bust payments company Wirecard \u2018hired spies and lawyers to silence critics\u2019",
+     "url": "https://www.theguardian.com/business/2023/mar/04/covert-cameras-alleged-hacking-how-bust-payments-company-wirecard-hired-spies-lawyers-silence-critics",
+     "domain": "theguardian.com",
+     "tier": 2,
+     "status": "investigation",
+     "identity": "probable",
+     "sources": 1
+    },
+    {
+     "title": "Wirecard files for insolvency amid German accounting scandal",
+     "url": "https://www.theguardian.com/business/2020/jun/25/wirecard-files-for-insolvency-amid-german-accounting-scandal",
+     "domain": "theguardian.com",
+     "tier": 2,
+     "status": "investigation",
+     "identity": "probable",
+     "sources": 1
+    }
+   ],
+   "top_review": [
+    {
+     "title": "Covert cameras and alleged hacking: how bust payments company Wirecard \u2018hired spies and lawyers to silence critics\u2019",
+     "url": "https://www.theguardian.com/business/2023/mar/04/covert-cameras-alleged-hacking-how-bust-payments-company-wirecard-hired-spies-lawyers-silence-critics",
+     "identity": "probable",
+     "status": "investigation"
+    },
+    {
+     "title": "Wirecard files for insolvency amid German accounting scandal",
+     "url": "https://www.theguardian.com/business/2020/jun/25/wirecard-files-for-insolvency-amid-german-accounting-scandal",
+     "identity": "probable",
+     "status": "investigation"
+    },
+    {
+     "title": "Wirecard AG",
+     "url": "https://www.ft.com/stream/ffd38f36-a94c-43f7-8a62-2f45caf1bea3",
+     "identity": "possible",
+     "status": "investigation"
+    }
+   ],
+   "pdf_ok": true
+  },
+  {
+   "case": "T3_john_smith",
+   "name": "John Smith",
+   "identifiers": {},
+   "expected": "AMBER",
+   "screening_id": "AMS-20261101-71LZLE",
+   "status": "AMBER",
+   "incomplete": false,
+   "duration_s": 18,
+   "pass": true,
+   "counts": {
+    "review": 0,
+    "mitigating": 0,
+    "low": 318,
+    "material": 0
+   },
+   "providers": [
+    {
+     "id": "google_news",
+     "status": "ok",
+     "results": 444,
+     "error": null
+    },
+    {
+     "id": "gdelt",
+     "status": "failed",
+     "results": 0,
+     "error": "ProviderError: GDELT error: Your query was too short or too long."
+    },
+    {
+     "id": "bing_news",
+     "status": "ok",
+     "results": 3,
+     "error": null
+    },
+    {
+     "id": "govuk",
+     "status": "ok",
+     "results": 1,
+     "error": null
+    },
+    {
+     "id": "doj",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "sec_litigation",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "companies_house",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires COMPANIES_HOUSE_API_KEY"
+    },
+    {
+     "id": "courtlistener",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires COURTLISTENER_API_TOKEN"
+    },
+    {
+     "id": "newsapi",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires NEWSAPI_KEY"
+    },
+    {
+     "id": "gnews",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires GNEWS_API_KEY"
+    },
+    {
+     "id": "brave",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires BRAVE_API_KEY"
+    },
+    {
+     "id": "serper",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires SERPER_API_KEY"
+    },
+    {
+     "id": "bing_web",
+     "status": "disabled",
+     "results": 0,
+     "error": "Not searched: provider disabled"
+    }
+   ],
+   "reasons": [
+    "Identity unresolved due to common name (6 potentially adverse result(s)); add identifiers (DOB, nationality, associates) to resolve",
+    "Coverage note (minimum coverage still met): Core provider(s) unavailable: gdelt"
+   ],
+   "identity_levels_in_review": [],
+   "top_material": [],
+   "top_review": [],
+   "pdf_ok": true
+  },
+  {
+   "case": "T4_obscure",
+   "name": "Quillon Dravenmoor-Tesk",
+   "identifiers": {},
+   "expected": "GREEN",
+   "screening_id": "AMS-20261101-8DSMOG",
+   "status": "GREEN",
+   "incomplete": false,
+   "duration_s": 27,
+   "pass": true,
+   "counts": {
+    "review": 0,
+    "mitigating": 0,
+    "low": 0,
+    "material": 0
+   },
+   "providers": [
+    {
+     "id": "google_news",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "gdelt",
+     "status": "failed",
+     "results": 0,
+     "error": "ProviderError: timeout"
+    },
+    {
+     "id": "bing_news",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "govuk",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "doj",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "sec_litigation",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "companies_house",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires COMPANIES_HOUSE_API_KEY"
+    },
+    {
+     "id": "courtlistener",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires COURTLISTENER_API_TOKEN"
+    },
+    {
+     "id": "newsapi",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires NEWSAPI_KEY"
+    },
+    {
+     "id": "gnews",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires GNEWS_API_KEY"
+    },
+    {
+     "id": "brave",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires BRAVE_API_KEY"
+    },
+    {
+     "id": "serper",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires SERPER_API_KEY"
+    },
+    {
+     "id": "bing_web",
+     "status": "disabled",
+     "results": 0,
+     "error": "Not searched: provider disabled"
+    }
+   ],
+   "reasons": [
+    "No relevant unresolved adverse media identified in the sources searched",
+    "Coverage note (minimum coverage still met): Core provider(s) unavailable: gdelt"
+   ],
+   "identity_levels_in_review": [],
+   "top_material": [],
+   "top_review": [],
+   "pdf_ok": true
+  },
+  {
+   "case": "T5a_ids_before",
+   "name": "Nick Leeson",
+   "identifiers": {},
+   "expected": "AMBER|RED",
+   "screening_id": "AMS-20261101-CINZQP",
+   "status": "AMBER",
+   "incomplete": false,
+   "duration_s": 30,
+   "pass": true,
+   "counts": {
+    "review": 8,
+    "mitigating": 0,
+    "low": 124,
+    "material": 0
+   },
+   "providers": [
+    {
+     "id": "google_news",
+     "status": "ok",
+     "results": 230,
+     "error": null
+    },
+    {
+     "id": "gdelt",
+     "status": "failed",
+     "results": 0,
+     "error": "ProviderError: timeout"
+    },
+    {
+     "id": "bing_news",
+     "status": "ok",
+     "results": 8,
+     "error": null
+    },
+    {
+     "id": "govuk",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "doj",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "sec_litigation",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "companies_house",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires COMPANIES_HOUSE_API_KEY"
+    },
+    {
+     "id": "courtlistener",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires COURTLISTENER_API_TOKEN"
+    },
+    {
+     "id": "newsapi",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires NEWSAPI_KEY"
+    },
+    {
+     "id": "gnews",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires GNEWS_API_KEY"
+    },
+    {
+     "id": "brave",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires BRAVE_API_KEY"
+    },
+    {
+     "id": "serper",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires SERPER_API_KEY"
+    },
+    {
+     "id": "bing_web",
+     "status": "disabled",
+     "results": 0,
+     "error": "Not searched: provider disabled"
+    }
+   ],
+   "reasons": [
+    "8 finding(s) require analyst review",
+    "Coverage note (minimum coverage still met): Core provider(s) unavailable: gdelt"
+   ],
+   "identity_levels_in_review": [
+    "possible"
+   ],
+   "top_material": [],
+   "top_review": [
+    {
+     "title": "Barings collapse at 20: How rogue trader Nick Leeson broke the bank",
+     "url": "https://www.theguardian.com/business/from-the-archive-blog/2015/feb/24/nick-leeson-barings-bank-1995-20-archive",
+     "identity": "possible",
+     "status": "conviction"
+    },
+    {
+     "title": "La incre\u00edble historia de Nick Leeson, el inversor millonario acusado de estafar y provocar la quiebra del banco de la reina de Inglaterra",
+     "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxPTGlhMXNEZjJwM1kzUUw1eEJROVRzTS1NMGZQdS1Bd3AtdV9kRjE5ZDQ3OUlSYTBnVmloanB6TDhyazBkQlQ0dW80TjViOGVqS2FFOGZmTE9na3NCNWxOZWhWdWd5VEYwLXlJa2VNR1BGZUwyMWwzaHRDT0dGWmR1MHR0R0k2eEM2bEU5My11N1ZsTjlQQXZseWIzNXBPa08zamY1Z2FiUmlVX3ZzUWpBc25tMHMyZmtVenpPaHNKMndIRzV0M1hOVzhrQXQtREF5U3JJck9EeTlLemliVDlHbUpNVFljbl9RMUsxeGhlLW1xOUZLTXczWtIB_gFBVV95cUxQYmlOZFZINEpWS2hVVk5HNlJnbk9NMU8yQlRoT0UxMGI4VmZUU01GcS1QQjZsTWRqeTRCSF9hNFBmeEx4MWJvWVRpS01uUFg2M0s0VllsUlVoeG1DMk5wU3BlMEhzOVhvN25zMURuZ1JlQzJMSXBhRHgxYUE2U1BoQmNCUXh2RlNsUy1MbVgwQjVHbXlwcUR1TG5tSEh3dzFraHlkeFk4OGJzYW5zZ05tX09kVV9mLUdUU3RfRXZCQWdrOWVCQ3Y4MGFDVHMwR25JUm9YNzFEZlEybExpcEVKeGFvNmtBbzgtOEdaU3VvU3AwMTBkT3BaZFdva3dJdw?oc=5",
+     "identity": "possible",
+     "status": "formal_charge"
+    },
+    {
+     "title": "Who is Nick Leeson and what is the CBB 2018 finalist and ex-Rogue Trader\u2019s net worth?",
+     "url": "https://www.thesun.co.uk/tvandshowbiz/7005330/nick-leeson-celebrity-big-brother-2018-former-rogue-trader/",
+     "identity": "possible",
+     "status": "unknown"
+    }
+   ],
+   "pdf_ok": true
+  },
+  {
+   "case": "T5b_ids_after",
+   "name": "Nick Leeson",
+   "identifiers": {
+    "dob": "1967-02-25",
+    "nationality": "United Kingdom",
+    "employer": "Barings"
+   },
+   "expected": "RED",
+   "screening_id": "AMS-20261101-CZVEQC",
+   "status": "RED",
+   "incomplete": false,
+   "duration_s": 15,
+   "pass": true,
+   "counts": {
+    "review": 7,
+    "mitigating": 0,
+    "low": 129,
+    "material": 1
+   },
+   "providers": [
+    {
+     "id": "google_news",
+     "status": "ok",
+     "results": 257,
+     "error": null
+    },
+    {
+     "id": "gdelt",
+     "status": "failed",
+     "results": 0,
+     "error": "ProviderError: GDELT error: Your query was too short or too long."
+    },
+    {
+     "id": "bing_news",
+     "status": "ok",
+     "results": 10,
+     "error": null
+    },
+    {
+     "id": "govuk",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "doj",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "sec_litigation",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "companies_house",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires COMPANIES_HOUSE_API_KEY"
+    },
+    {
+     "id": "courtlistener",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires COURTLISTENER_API_TOKEN"
+    },
+    {
+     "id": "newsapi",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires NEWSAPI_KEY"
+    },
+    {
+     "id": "gnews",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires GNEWS_API_KEY"
+    },
+    {
+     "id": "brave",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires BRAVE_API_KEY"
+    },
+    {
+     "id": "serper",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires SERPER_API_KEY"
+    },
+    {
+     "id": "bing_web",
+     "status": "disabled",
+     "results": 0,
+     "error": "Not searched: provider disabled"
+    }
+   ],
+   "reasons": [
+    "1 material adverse finding(s) meet all RED rules",
+    "Coverage note (minimum coverage still met): Core provider(s) unavailable: gdelt"
+   ],
+   "identity_levels_in_review": [
+    "possible",
+    "probable"
+   ],
+   "top_material": [
+    {
+     "title": "Barings collapse at 20: How rogue trader Nick Leeson broke the bank",
+     "url": "https://www.theguardian.com/business/from-the-archive-blog/2015/feb/24/nick-leeson-barings-bank-1995-20-archive",
+     "domain": "theguardian.com",
+     "tier": 2,
+     "status": "conviction",
+     "identity": "probable",
+     "sources": 1
+    }
+   ],
+   "top_review": [
+    {
+     "title": "Barings collapse at 20: How rogue trader Nick Leeson broke the bank",
+     "url": "https://www.theguardian.com/business/from-the-archive-blog/2015/feb/24/nick-leeson-barings-bank-1995-20-archive",
+     "identity": "probable",
+     "status": "conviction"
+    },
+    {
+     "title": "La incre\u00edble historia de Nick Leeson, el inversor millonario acusado de estafar y provocar la quiebra del banco de la reina de Inglaterra",
+     "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxPTGlhMXNEZjJwM1kzUUw1eEJROVRzTS1NMGZQdS1Bd3AtdV9kRjE5ZDQ3OUlSYTBnVmloanB6TDhyazBkQlQ0dW80TjViOGVqS2FFOGZmTE9na3NCNWxOZWhWdWd5VEYwLXlJa2VNR1BGZUwyMWwzaHRDT0dGWmR1MHR0R0k2eEM2bEU5My11N1ZsTjlQQXZseWIzNXBPa08zamY1Z2FiUmlVX3ZzUWpBc25tMHMyZmtVenpPaHNKMndIRzV0M1hOVzhrQXQtREF5U3JJck9EeTlLemliVDlHbUpNVFljbl9RMUsxeGhlLW1xOUZLTXczWtIB_gFBVV95cUxQYmlOZFZINEpWS2hVVk5HNlJnbk9NMU8yQlRoT0UxMGI4VmZUU01GcS1QQjZsTWRqeTRCSF9hNFBmeEx4MWJvWVRpS01uUFg2M0s0VllsUlVoeG1DMk5wU3BlMEhzOVhvN25zMURuZ1JlQzJMSXBhRHgxYUE2U1BoQmNCUXh2RlNsUy1MbVgwQjVHbXlwcUR1TG5tSEh3dzFraHlkeFk4OGJzYW5zZ05tX09kVV9mLUdUU3RfRXZCQWdrOWVCQ3Y4MGFDVHMwR25JUm9YNzFEZlEybExpcEVKeGFvNmtBbzgtOEdaU3VvU3AwMTBkT3BaZFdva3dJdw?oc=5",
+     "identity": "possible",
+     "status": "formal_charge"
+    },
+    {
+     "title": "What did CBB finalist Nick Leeson do, when was the Barings bank \u2018Rogue Trader\u2019 in jail and how much money he did lose?",
+     "url": "https://www.thesun.co.uk/news/7030040/nick-leeson-how-much-money-barings-bank-rogue-trader-lose/",
+     "identity": "probable",
+     "status": "unknown"
+    }
+   ],
+   "pdf_ok": true
+  }
+ ],
+ "audit": {
+  "valid": true,
+  "entries": 76,
+  "head": "9c992cd378feaa9cca1a546adaee0a1d774e3ccc68bf8ac62f96753e62a47fa9"
+ }
+}

@@ -1,0 +1,100 @@
+{
+ "subject": {
+  "subject_type": "individual",
+  "name": "Halvard Quennell-Broome",
+  "identifiers": {
+   "dob": "1971-03-14",
+   "nationality": "United Kingdom"
+  }
+ },
+ "expected": {
+  "status": "RED"
+ },
+ "items": [
+  {
+   "url": "https://court-t1.fixture.example/sentencing",
+   "title": "Guildford businessman jailed for six years for fraud",
+   "provider": "test_fixtures",
+   "source_name": "court-t1",
+   "source_domain": "court-t1.fixture.example",
+   "published_at": "2025-06-01",
+   "snippet": "Halvard Quennell-Broome, 54, of Guildford, was jailed for six years at Southwark Crown Court after being convicted of fraud and money laundering.",
+   "language": "en",
+   "extra": {
+    "fixture_tier": 1,
+    "fixture": true
+   }
+  },
+  {
+   "url": "https://news-t2.fixture.example/jailed",
+   "title": "Guildford businessman jailed for six years for fraud - News T2",
+   "provider": "test_fixtures",
+   "source_name": "news-t2",
+   "source_domain": "news-t2.fixture.example",
+   "published_at": "2025-06-01",
+   "snippet": "Halvard Quennell-Broome, 54, of Guildford, was jailed for six years at Southwark Crown Court after being convicted of fraud and money laundering.",
+   "language": "en",
+   "extra": {
+    "fixture_tier": 2,
+    "fixture": true
+   }
+  },
+  {
+   "url": "https://wire-t2b.fixture.example/jailed-wire",
+   "title": "Guildford businessman jailed for six years for fraud",
+   "provider": "test_fixtures",
+   "source_name": "wire-t2b",
+   "source_domain": "wire-t2b.fixture.example",
+   "published_at": "2025-06-01",
+   "snippet": "Halvard Quennell-Broome, 54, of Guildford, was jailed for six years at Southwark Crown Court after being convicted of fraud and money laundering.",
+   "language": "en",
+   "extra": {
+    "fixture_tier": 2,
+    "fixture": true
+   }
+  },
+  {
+   "url": "https://news-t2.fixture.example/victim",
+   "title": "Pensioner loses savings",
+   "provider": "test_fixtures",
+   "source_name": "news-t2",
+   "source_domain": "news-t2.fixture.example",
+   "published_at": "2025-06-01",
+   "snippet": "Halvard Quennell-Broome, 54, was the victim of a fraud in which criminals stole his savings.",
+   "language": "en",
+   "extra": {
+    "fixture_tier": 2,
+    "fixture": true
+   }
+  },
+  {
+   "url": "https://news-t2.fixture.example/cleared",
+   "title": "Businessman cleared of bribery",
+   "provider": "test_fixtures",
+   "source_name": "news-t2",
+   "source_domain": "news-t2.fixture.example",
+   "published_at": "2019-02-01",
+   "snippet": "Halvard Quennell-Broome, 54, was acquitted of bribery by a jury.",
+   "language": "en",
+   "extra": {
+    "fixture_tier": 2,
+    "fixture": true
+   }
+  },
+  {
+   "url": "https://news-t2.fixture.example/marathon",
+   "title": "Local runner finishes marathon",
+   "provider": "test_fixtures",
+   "source_name": "news-t2",
+   "source_domain": "news-t2.fixture.example",
+   "published_at": "2025-06-01",
+   "snippet": "Halvard Quennell-Broome, 54, completed the London marathon.",
+   "language": "en",
+   "extra": {
+    "fixture_tier": 2,
+    "fixture": true
+   }
+  }
+ ],
+ "_label": "SYNTHETIC TEST FIXTURE — fictional subject, reserved .example domains. Test mode only; never a real search result."
+}

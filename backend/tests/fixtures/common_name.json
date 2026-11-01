@@ -1,0 +1,41 @@
+{
+ "subject": {
+  "subject_type": "individual",
+  "name": "John Smith",
+  "identifiers": {}
+ },
+ "expected": {
+  "status": "AMBER"
+ },
+ "items": [
+  {
+   "url": "https://news-t2.fixture.example/js1",
+   "title": "John Smith charged with fraud",
+   "provider": "test_fixtures",
+   "source_name": "news-t2",
+   "source_domain": "news-t2.fixture.example",
+   "published_at": "2025-06-01",
+   "snippet": "John Smith was charged with fraud by police on Tuesday.",
+   "language": "en",
+   "extra": {
+    "fixture_tier": 2,
+    "fixture": true
+   }
+  },
+  {
+   "url": "https://news-t2.fixture.example/js2",
+   "title": "John Smith jailed for money laundering",
+   "provider": "test_fixtures",
+   "source_name": "news-t2",
+   "source_domain": "news-t2.fixture.example",
+   "published_at": "2025-06-01",
+   "snippet": "John Smith was jailed for money laundering offences.",
+   "language": "en",
+   "extra": {
+    "fixture_tier": 2,
+    "fixture": true
+   }
+  }
+ ],
+ "_label": "SYNTHETIC TEST FIXTURE — fictional subject, reserved .example domains. Test mode only; never a real search result."
+}

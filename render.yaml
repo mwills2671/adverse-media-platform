@@ -1,0 +1,40 @@
+# Documentation of the deployed infrastructure (services were created via the Render API/MCP).
+# Secrets are NOT stored here: values marked sync:false are set in the Render dashboard.
+databases:
+  - name: ams-db
+    region: frankfurt
+    plan: free            # free Postgres expires 30 days after creation; upgrade to basic-256mb for persistence
+    databaseName: ams
+    user: ams
+
+services:
+  - type: web
+    name: adverse-media-platform
+    runtime: docker
+    region: frankfurt
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase: { name: ams-db, property: connectionString }
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        sync: false        # random strong password, set at first deploy
+      # Optional provider / AI keys (features degrade gracefully when unset):
+      - { key: COMPANIES_HOUSE_API_KEY, sync: false }
+      - { key: COURTLISTENER_API_TOKEN, sync: false }
+      - { key: NEWSAPI_KEY, sync: false }
+      - { key: GNEWS_API_KEY, sync: false }
+      - { key: BRAVE_API_KEY, sync: false }
+      - { key: SERPER_API_KEY, sync: false }
+      - { key: BING_SEARCH_KEY, sync: false }
+      - { key: LLM_API_KEY, sync: false }
+      - { key: LLM_BASE_URL, value: "https://api.x.ai/v1" }
+      - { key: LLM_MODEL, value: grok-3-mini }

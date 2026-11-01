@@ -1,0 +1,12 @@
+.env
+.env.*
+.admin_password*
+*.db
+*.sqlite*
+.venv/
+node_modules/
+frontend/dist/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.tsbuildinfo

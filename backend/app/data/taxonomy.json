@@ -1,0 +1,1459 @@
+{
+ "version": 1,
+ "groups": {
+  "financial_crime": "Financial crime",
+  "regulatory": "Regulatory and compliance",
+  "predicate": "Predicate offences and serious criminality",
+  "integrity": "Corporate integrity and reputational"
+ },
+ "severity_scale": {
+  "critical": 4,
+  "high": 3,
+  "medium": 2,
+  "low": 1
+ },
+ "categories": [
+  {
+   "id": "money_laundering",
+   "group": "financial_crime",
+   "label": "Money laundering",
+   "severity": "critical",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "money launder*",
+     "laundering money",
+     "laundered*",
+     "launders",
+     "proceeds of crime",
+     "laundering scheme",
+     "anti-money laundering offence",
+     "money mule*",
+     "launder*"
+    ],
+    "fr": [
+     "blanchiment*"
+    ],
+    "de": [
+     "geldwasche*",
+     "geldwaesche*"
+    ],
+    "es": [
+     "lavado de dinero",
+     "blanqueo*"
+    ],
+    "it": [
+     "riciclaggio*"
+    ],
+    "pt": [
+     "lavagem de dinheiro",
+     "branqueamento*"
+    ],
+    "nl": [
+     "witwas*"
+    ],
+    "ar": [
+     "غسل الأموال",
+     "غسيل الأموال"
+    ]
+   },
+   "query_terms": [
+    "money laundering",
+    "laundering"
+   ]
+  },
+  {
+   "id": "terrorist_financing",
+   "group": "financial_crime",
+   "label": "Terrorist financing",
+   "severity": "critical",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "terrorist financing",
+     "terror financing",
+     "financing terrorism",
+     "financing of terrorism",
+     "terrorism financing",
+     "funding terrorism",
+     "terror funding"
+    ],
+    "fr": [
+     "financement du terrorisme"
+    ],
+    "de": [
+     "terrorismusfinanzierung"
+    ],
+    "es": [
+     "financiacion del terrorismo",
+     "financiamiento del terrorismo"
+    ],
+    "it": [
+     "finanziamento del terrorismo"
+    ],
+    "pt": [
+     "financiamento do terrorismo"
+    ],
+    "nl": [
+     "terrorismefinanciering"
+    ],
+    "ar": [
+     "تمويل الإرهاب"
+    ]
+   },
+   "query_terms": [
+    "terrorist financing"
+   ]
+  },
+  {
+   "id": "fraud",
+   "group": "financial_crime",
+   "label": "Fraud and financial deception",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "fraud",
+     "frauds",
+     "fraudster*",
+     "fraudulent*",
+     "defraud*",
+     "swindl*",
+     "scam",
+     "scammed",
+     "scammer*",
+     "deception",
+     "false representation",
+     "obtaining by deception",
+     "bank fraud",
+     "wire fraud",
+     "mail fraud",
+     "loan fraud",
+     "bounce back loan*"
+    ],
+    "fr": [
+     "fraude*",
+     "escroquer*",
+     "escroc*"
+    ],
+    "de": [
+     "betrug*",
+     "betrueger*",
+     "betruger*"
+    ],
+    "es": [
+     "fraude*",
+     "estafa*"
+    ],
+    "it": [
+     "frode*",
+     "truffa*"
+    ],
+    "pt": [
+     "fraude*",
+     "golpe"
+    ],
+    "nl": [
+     "fraude*",
+     "oplichting"
+    ],
+    "ar": [
+     "احتيال"
+    ]
+   },
+   "query_terms": [
+    "fraud",
+    "fraudulent"
+   ]
+  },
+  {
+   "id": "tax_evasion",
+   "group": "financial_crime",
+   "label": "Tax evasion and tax fraud",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "tax evasion",
+     "evading tax*",
+     "evaded tax*",
+     "tax fraud",
+     "vat fraud",
+     "carousel fraud",
+     "cheating the public revenue",
+     "tax dodg*",
+     "undeclared income"
+    ],
+    "fr": [
+     "fraude fiscale",
+     "evasion fiscale"
+    ],
+    "de": [
+     "steuerhinterziehung",
+     "steuerbetrug"
+    ],
+    "es": [
+     "evasion fiscal",
+     "fraude fiscal"
+    ],
+    "it": [
+     "evasione fiscale",
+     "frode fiscale"
+    ],
+    "pt": [
+     "evasao fiscal",
+     "sonegacao*"
+    ],
+    "nl": [
+     "belastingfraude",
+     "belastingontduiking"
+    ],
+    "ar": [
+     "التهرب الضريبي"
+    ]
+   },
+   "query_terms": [
+    "tax evasion",
+    "tax fraud"
+   ]
+  },
+  {
+   "id": "bribery_corruption",
+   "group": "financial_crime",
+   "label": "Bribery and corruption",
+   "severity": "critical",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "brib*",
+     "corrupt*",
+     "kickback*",
+     "graft",
+     "fcpa",
+     "bribery act",
+     "facilitation payment*",
+     "influence peddling"
+    ],
+    "fr": [
+     "corruption",
+     "pot-de-vin",
+     "pots-de-vin"
+    ],
+    "de": [
+     "bestechung*",
+     "korruption*",
+     "schmiergeld*"
+    ],
+    "es": [
+     "soborno*",
+     "corrupcion",
+     "cohecho"
+    ],
+    "it": [
+     "corruzione",
+     "tangent*"
+    ],
+    "pt": [
+     "suborno*",
+     "corrupcao",
+     "propina*"
+    ],
+    "nl": [
+     "omkoping*",
+     "corruptie"
+    ],
+    "ar": [
+     "رشوة",
+     "فساد"
+    ]
+   },
+   "query_terms": [
+    "bribery",
+    "corruption"
+   ]
+  },
+  {
+   "id": "embezzlement",
+   "group": "financial_crime",
+   "label": "Embezzlement and misappropriation",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "embezzl*",
+     "misappropriat*",
+     "siphon*",
+     "theft of funds",
+     "stole from",
+     "breach of trust",
+     "misuse of donations",
+     "misusing donations",
+     "misused donations",
+     "misuse of charity funds",
+     "misusing charity funds"
+    ],
+    "fr": [
+     "detournement de fonds",
+     "abus de biens sociaux"
+    ],
+    "de": [
+     "veruntreu*",
+     "unterschlag*"
+    ],
+    "es": [
+     "malversacion",
+     "apropiacion indebida"
+    ],
+    "it": [
+     "appropriazione indebita",
+     "peculato"
+    ],
+    "pt": [
+     "desvio de fundos",
+     "peculato"
+    ],
+    "nl": [
+     "verduistering"
+    ],
+    "ar": [
+     "اختلاس"
+    ]
+   },
+   "query_terms": [
+    "embezzlement",
+    "misappropriation"
+   ]
+  },
+  {
+   "id": "insider_trading",
+   "group": "financial_crime",
+   "label": "Insider trading / insider dealing",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "insider trading",
+     "insider dealing",
+     "trading on inside information",
+     "inside information"
+    ],
+    "fr": [
+     "delit d'initie*"
+    ],
+    "de": [
+     "insiderhandel"
+    ],
+    "es": [
+     "uso de informacion privilegiada"
+    ],
+    "it": [
+     "insider trading"
+    ],
+    "nl": [
+     "handel met voorkennis"
+    ]
+   },
+   "query_terms": [
+    "insider trading",
+    "insider dealing"
+   ]
+  },
+  {
+   "id": "market_manipulation",
+   "group": "financial_crime",
+   "label": "Market manipulation",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "market manipulation",
+     "manipulating the market",
+     "manipulated the market",
+     "pump and dump",
+     "pump-and-dump",
+     "spoofing",
+     "price manipulation",
+     "market abuse",
+     "rate rigging",
+     "libor rigging"
+    ],
+    "fr": [
+     "manipulation de cours",
+     "manipulation du marche"
+    ],
+    "de": [
+     "marktmanipulation"
+    ],
+    "es": [
+     "manipulacion del mercado"
+    ],
+    "it": [
+     "manipolazione del mercato",
+     "aggiotaggio"
+    ],
+    "nl": [
+     "marktmanipulatie"
+    ]
+   },
+   "query_terms": [
+    "market manipulation",
+    "market abuse"
+   ]
+  },
+  {
+   "id": "securities_fraud",
+   "group": "financial_crime",
+   "label": "Securities and investment fraud",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "securities fraud",
+     "investment fraud",
+     "investor fraud",
+     "defrauding investors",
+     "defrauded investors",
+     "boiler room",
+     "unregistered securities",
+     "misled investors"
+    ],
+    "de": [
+     "anlagebetrug"
+    ],
+    "fr": [
+     "fraude boursiere"
+    ]
+   },
+   "query_terms": [
+    "securities fraud",
+    "investment fraud"
+   ]
+  },
+  {
+   "id": "accounting_fraud",
+   "group": "financial_crime",
+   "label": "Accounting fraud",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "accounting fraud",
+     "accounting irregularit*",
+     "cooked the books",
+     "false accounting",
+     "accounting scandal",
+     "missing billion*",
+     "balance sheet hole",
+     "fictitious revenue*",
+     "inflated revenue*"
+    ],
+    "de": [
+     "bilanzbetrug",
+     "bilanzfalschung",
+     "bilanzfaelschung"
+    ],
+    "fr": [
+     "fraude comptable"
+    ],
+    "es": [
+     "fraude contable"
+    ],
+    "it": [
+     "falso in bilancio"
+    ]
+   },
+   "query_terms": [
+    "accounting fraud",
+    "false accounting"
+   ]
+  },
+  {
+   "id": "financial_statement_manipulation",
+   "group": "financial_crime",
+   "label": "Financial statement manipulation",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "financial statement fraud",
+     "misstated financial*",
+     "restatement of accounts",
+     "falsified accounts",
+     "falsified financial*",
+     "manipulated accounts",
+     "inflated profits",
+     "window dressing"
+    ]
+   },
+   "query_terms": [
+    "falsified accounts",
+    "misstated financial statements"
+   ]
+  },
+  {
+   "id": "ponzi_scheme",
+   "group": "financial_crime",
+   "label": "Ponzi schemes and investment scams",
+   "severity": "critical",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "ponzi",
+     "pyramid scheme",
+     "investment scam*",
+     "investment scheme fraud",
+     "crypto scam*",
+     "rug pull"
+    ],
+    "fr": [
+     "systeme de ponzi",
+     "pyramide de ponzi"
+    ],
+    "de": [
+     "schneeballsystem"
+    ],
+    "es": [
+     "esquema ponzi",
+     "estafa piramidal"
+    ],
+    "it": [
+     "schema ponzi"
+    ],
+    "pt": [
+     "esquema de piramide",
+     "piramide financeira"
+    ],
+    "nl": [
+     "piramidespel"
+    ]
+   },
+   "query_terms": [
+    "Ponzi scheme",
+    "investment scam"
+   ]
+  },
+  {
+   "id": "cyber_financial_crime",
+   "group": "financial_crime",
+   "label": "Cyber-enabled financial crime",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "ransomware",
+     "phishing",
+     "business email compromise",
+     "account takeover",
+     "card fraud",
+     "crypto theft",
+     "cyber fraud",
+     "cyber-enabled fraud",
+     "hacking scheme",
+     "identity theft"
+    ]
+   },
+   "query_terms": [
+    "cyber fraud",
+    "ransomware"
+   ]
+  },
+  {
+   "id": "asset_concealment",
+   "group": "financial_crime",
+   "label": "Asset concealment and illicit funds",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "illicit funds",
+     "hidden assets",
+     "concealed assets",
+     "concealing assets",
+     "shell compan*",
+     "offshore accounts",
+     "asset freezing order",
+     "unexplained wealth order",
+     "account freezing order",
+     "confiscation order",
+     "dirty money"
+    ],
+    "fr": [
+     "avoirs illicites"
+    ],
+    "de": [
+     "illegale gelder"
+    ],
+    "es": [
+     "fondos ilicitos"
+    ]
+   },
+   "query_terms": [
+    "unexplained wealth order",
+    "illicit funds"
+   ]
+  },
+  {
+   "id": "organised_financial_crime",
+   "group": "financial_crime",
+   "label": "Organised financial crime",
+   "severity": "critical",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "fraud ring",
+     "crime network",
+     "criminal network",
+     "money laundering network",
+     "laundering network",
+     "racketeering",
+     "rico"
+    ]
+   },
+   "query_terms": [
+    "racketeering",
+    "criminal network"
+   ]
+  },
+  {
+   "id": "regulatory_investigation",
+   "group": "regulatory",
+   "label": "Regulatory investigation",
+   "severity": "medium",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "under investigation",
+     "investigated by",
+     "investigation into",
+     "probe into",
+     "probed by",
+     "regulator investigat*",
+     "inquiry into",
+     "dawn raid",
+     "raided"
+    ],
+    "fr": [
+     "enquete",
+     "perquisition"
+    ],
+    "de": [
+     "ermittlung*",
+     "durchsuchung*"
+    ],
+    "es": [
+     "investigacion",
+     "pesquisa"
+    ],
+    "it": [
+     "indagin*",
+     "inchiesta"
+    ],
+    "pt": [
+     "investigacao"
+    ],
+    "nl": [
+     "onderzoek naar"
+    ],
+    "ar": [
+     "تحقيق"
+    ]
+   },
+   "query_terms": [
+    "investigation",
+    "probe"
+   ]
+  },
+  {
+   "id": "enforcement_action",
+   "group": "regulatory",
+   "label": "Regulatory enforcement action",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "enforcement action",
+     "final notice",
+     "cease and desist",
+     "censure*",
+     "public censure",
+     "sanctioned by the",
+     "consent order",
+     "deferred prosecution agreement",
+     "enforcement notice"
+    ],
+    "de": [
+     "bafin"
+    ],
+    "fr": [
+     "sanction de l'amf",
+     "commission des sanctions"
+    ]
+   },
+   "query_terms": [
+    "enforcement action",
+    "final notice"
+   ]
+  },
+  {
+   "id": "fines_penalties",
+   "group": "regulatory",
+   "label": "Financial penalties and fines",
+   "severity": "medium",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "fined",
+     "fine of",
+     "penalty of",
+     "civil penalty",
+     "monetary penalty",
+     "financial penalty",
+     "ordered to pay",
+     "disgorge*"
+    ],
+    "fr": [
+     "amende",
+     "condamne a payer"
+    ],
+    "de": [
+     "geldstrafe",
+     "bussgeld"
+    ],
+    "es": [
+     "multa",
+     "multado"
+    ],
+    "it": [
+     "multa",
+     "sanzione"
+    ],
+    "pt": [
+     "multa"
+    ],
+    "nl": [
+     "boete"
+    ],
+    "ar": [
+     "غرامة"
+    ]
+   },
+   "query_terms": [
+    "fined",
+    "penalty"
+   ]
+  },
+  {
+   "id": "aml_control_failures",
+   "group": "regulatory",
+   "label": "AML/CTF control deficiencies",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "aml failings",
+     "anti-money laundering failings",
+     "aml failures",
+     "money laundering controls",
+     "aml controls",
+     "financial crime controls",
+     "weak controls",
+     "failed to prevent money laundering",
+     "know your customer failings",
+     "kyc failings",
+     "suspicious activity reports"
+    ]
+   },
+   "query_terms": [
+    "AML failings",
+    "money laundering controls"
+   ]
+  },
+  {
+   "id": "financial_services_breach",
+   "group": "regulatory",
+   "label": "Breach of financial services regulation",
+   "severity": "medium",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "breach of fca rules",
+     "breached fca",
+     "principles for businesses",
+     "unauthorised firm",
+     "unauthorised investment",
+     "breach of regulations",
+     "regulatory breach*",
+     "failed to comply with regulatory",
+     "breached regulatory",
+     "mifid breach"
+    ]
+   },
+   "query_terms": [
+    "regulatory breach"
+   ]
+  },
+  {
+   "id": "licence_revocation",
+   "group": "regulatory",
+   "label": "Licence suspension or revocation",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "licence revoked",
+     "license revoked",
+     "revoked its licence",
+     "revoked its license",
+     "licence suspended",
+     "license suspended",
+     "permission cancelled",
+     "authorisation cancelled",
+     "authorization revoked",
+     "stripped of its licence",
+     "banking licence withdrawn"
+    ],
+    "de": [
+     "lizenz entzogen"
+    ],
+    "fr": [
+     "retrait d'agrement",
+     "licence retiree"
+    ]
+   },
+   "query_terms": [
+    "licence revoked"
+   ]
+  },
+  {
+   "id": "professional_disqualification",
+   "group": "regulatory",
+   "label": "Professional disqualification",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "disqualified director",
+     "disqualified from acting as a director",
+     "director disqualification",
+     "banned from acting as a director",
+     "struck off",
+     "barred from the industry",
+     "prohibition order",
+     "banned from the financial services industry",
+     "disqualified for",
+     "disqualified as a director",
+     "disqualified as a company director",
+     "disqualified from being a director",
+     "disqualified from acting as a company director",
+     "banned from being a director"
+    ]
+   },
+   "query_terms": [
+    "disqualified director",
+    "prohibition order"
+   ]
+  },
+  {
+   "id": "governance_failings",
+   "group": "regulatory",
+   "label": "Serious governance and control failings",
+   "severity": "medium",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "governance failings",
+     "control failings",
+     "systems and controls failings",
+     "serious failings",
+     "risk management failings"
+    ]
+   },
+   "query_terms": [
+    "governance failings"
+   ]
+  },
+  {
+   "id": "misleading_disclosure",
+   "group": "regulatory",
+   "label": "Misleading disclosures to regulators/investors",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "misleading statements",
+     "misled the market",
+     "misled regulators",
+     "false statements to",
+     "misleading the market",
+     "misleading investors",
+     "false and misleading"
+    ]
+   },
+   "query_terms": [
+    "misled investors",
+    "misleading statements"
+   ]
+  },
+  {
+   "id": "sanctions_breach",
+   "group": "regulatory",
+   "label": "Sanctions-related breaches and enforcement",
+   "severity": "critical",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "sanctions breach*",
+     "breach of sanctions",
+     "breaching sanctions",
+     "sanctions evasion",
+     "evading sanctions",
+     "sanctions violation*",
+     "violated sanctions",
+     "ofac penalty",
+     "ofsi penalty",
+     "sanctions busting",
+     "breached sanctions",
+     "sanctions offence*",
+     "evade sanctions",
+     "sanctions evader*",
+     "breaching russia sanctions",
+     "breaching russian sanctions",
+     "breaching uk sanctions",
+     "breaching us sanctions",
+     "breaching eu sanctions",
+     "evading russian sanctions",
+     "circumventing sanctions",
+     "circumvent sanctions"
+    ],
+    "fr": [
+     "violation des sanctions"
+    ],
+    "de": [
+     "sanktionsverstoss*"
+    ],
+    "es": [
+     "violacion de sanciones"
+    ]
+   },
+   "query_terms": [
+    "sanctions evasion",
+    "sanctions breach"
+   ]
+  },
+  {
+   "id": "drug_trafficking",
+   "group": "predicate",
+   "label": "Drug trafficking",
+   "severity": "critical",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "drug trafficking",
+     "drug trafficker*",
+     "narcotics trafficking",
+     "drug smuggling",
+     "drug cartel",
+     "cocaine",
+     "heroin trafficking",
+     "fentanyl trafficking",
+     "supplying class a"
+    ],
+    "fr": [
+     "trafic de drogue",
+     "trafic de stupefiants"
+    ],
+    "de": [
+     "drogenhandel"
+    ],
+    "es": [
+     "narcotrafico",
+     "trafico de drogas"
+    ],
+    "it": [
+     "traffico di droga",
+     "narcotraffico"
+    ],
+    "pt": [
+     "trafico de drogas"
+    ],
+    "nl": [
+     "drugshandel"
+    ],
+    "ar": [
+     "تهريب المخدرات",
+     "الاتجار بالمخدرات"
+    ]
+   },
+   "query_terms": [
+    "drug trafficking"
+   ]
+  },
+  {
+   "id": "human_trafficking",
+   "group": "predicate",
+   "label": "Human trafficking",
+   "severity": "critical",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "human trafficking",
+     "people trafficking",
+     "people smuggling",
+     "sex trafficking",
+     "trafficking of women",
+     "trafficked"
+    ],
+    "fr": [
+     "traite des etres humains"
+    ],
+    "de": [
+     "menschenhandel"
+    ],
+    "es": [
+     "trata de personas"
+    ],
+    "it": [
+     "tratta di esseri umani"
+    ],
+    "pt": [
+     "trafico de pessoas"
+    ],
+    "nl": [
+     "mensenhandel"
+    ],
+    "ar": [
+     "الاتجار بالبشر"
+    ]
+   },
+   "query_terms": [
+    "human trafficking"
+   ]
+  },
+  {
+   "id": "modern_slavery",
+   "group": "predicate",
+   "label": "Modern slavery and forced labour",
+   "severity": "critical",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "modern slavery",
+     "forced labour",
+     "forced labor",
+     "slave labour",
+     "debt bondage",
+     "child labour",
+     "child labor"
+    ],
+    "fr": [
+     "travail force"
+    ],
+    "de": [
+     "zwangsarbeit"
+    ],
+    "es": [
+     "trabajo forzoso"
+    ]
+   },
+   "query_terms": [
+    "modern slavery",
+    "forced labour"
+   ]
+  },
+  {
+   "id": "organised_crime",
+   "group": "predicate",
+   "label": "Organised crime",
+   "severity": "critical",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "organised crime",
+     "organized crime",
+     "mafia",
+     "crime boss",
+     "crime family",
+     "gang leader",
+     "cartel",
+     "criminal organisation",
+     "criminal organization"
+    ],
+    "fr": [
+     "crime organise"
+    ],
+    "de": [
+     "organisierte kriminalitat",
+     "organisierte kriminalitaet"
+    ],
+    "es": [
+     "crimen organizado"
+    ],
+    "it": [
+     "criminalita organizzata",
+     "camorra",
+     "ndrangheta"
+    ],
+    "pt": [
+     "crime organizado"
+    ],
+    "nl": [
+     "georganiseerde misdaad"
+    ]
+   },
+   "query_terms": [
+    "organised crime",
+    "mafia"
+   ]
+  },
+  {
+   "id": "smuggling",
+   "group": "predicate",
+   "label": "Smuggling",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "smuggl*",
+     "contraband"
+    ],
+    "fr": [
+     "contrebande"
+    ],
+    "de": [
+     "schmuggel*"
+    ],
+    "es": [
+     "contrabando"
+    ],
+    "it": [
+     "contrabbando"
+    ],
+    "pt": [
+     "contrabando"
+    ],
+    "nl": [
+     "smokkel*"
+    ],
+    "ar": [
+     "تهريب"
+    ]
+   },
+   "query_terms": [
+    "smuggling"
+   ]
+  },
+  {
+   "id": "proliferation_financing",
+   "group": "predicate",
+   "label": "Proliferation financing",
+   "severity": "critical",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "proliferation financing",
+     "weapons of mass destruction",
+     "nuclear proliferation",
+     "dual-use goods",
+     "arms trafficking",
+     "weapons smuggling",
+     "arms embargo"
+    ]
+   },
+   "query_terms": [
+    "proliferation financing",
+    "arms trafficking"
+   ]
+  },
+  {
+   "id": "wildlife_trafficking",
+   "group": "predicate",
+   "label": "Wildlife trafficking",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "wildlife trafficking",
+     "ivory smuggling",
+     "rhino horn",
+     "illegal wildlife trade",
+     "poaching syndicate"
+    ]
+   },
+   "query_terms": [
+    "wildlife trafficking"
+   ]
+  },
+  {
+   "id": "environmental_crime",
+   "group": "predicate",
+   "label": "Environmental crime linked to illicit finance",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "illegal logging",
+     "illegal mining",
+     "environmental crime",
+     "waste trafficking",
+     "illegal dumping",
+     "illegal fishing"
+    ]
+   },
+   "query_terms": [
+    "environmental crime",
+    "illegal logging"
+   ]
+  },
+  {
+   "id": "serious_commercial_crime",
+   "group": "predicate",
+   "label": "Serious commercial criminal misconduct",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "cartel conduct",
+     "price fixing",
+     "price-fixing",
+     "bid rigging",
+     "bid-rigging",
+     "counterfeit*",
+     "forgery",
+     "forged documents",
+     "extortion",
+     "blackmail"
+    ]
+   },
+   "query_terms": [
+    "price fixing",
+    "extortion"
+   ]
+  },
+  {
+   "id": "corporate_misconduct",
+   "group": "integrity",
+   "label": "Serious corporate misconduct",
+   "severity": "medium",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "corporate misconduct",
+     "wrongdoing",
+     "misconduct",
+     "malpractice",
+     "whistleblower alleg*",
+     "cover-up",
+     "cover up"
+    ]
+   },
+   "query_terms": [
+    "misconduct",
+    "wrongdoing"
+   ]
+  },
+  {
+   "id": "governance_scandal",
+   "group": "integrity",
+   "label": "Material corporate governance scandal",
+   "severity": "medium",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "governance scandal",
+     "boardroom scandal",
+     "accounting scandal",
+     "scandal-hit",
+     "collapse of"
+    ],
+    "de": [
+     "skandal"
+    ],
+    "fr": [
+     "scandale"
+    ],
+    "es": [
+     "escandalo"
+    ],
+    "it": [
+     "scandalo"
+    ]
+   },
+   "query_terms": [
+    "scandal"
+   ]
+  },
+  {
+   "id": "misuse_client_funds",
+   "group": "integrity",
+   "label": "Misuse of client or investor funds",
+   "severity": "high",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "client money",
+     "client funds",
+     "customer funds",
+     "investor funds",
+     "misused funds",
+     "commingl*",
+     "client assets"
+    ]
+   },
+   "query_terms": [
+    "client funds",
+    "investor funds"
+   ]
+  },
+  {
+   "id": "insolvency_misconduct",
+   "group": "integrity",
+   "label": "Insolvency misconduct",
+   "severity": "medium",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "wrongful trading",
+     "fraudulent trading",
+     "phoenix compan*",
+     "insolvency fraud",
+     "bankruptcy fraud",
+     "bankruptcy restrictions",
+     "asset stripping"
+    ],
+    "de": [
+     "insolvenzverschleppung"
+    ]
+   },
+   "query_terms": [
+    "fraudulent trading",
+    "insolvency fraud"
+   ]
+  },
+  {
+   "id": "conflict_of_interest",
+   "group": "integrity",
+   "label": "Serious conflicts of interest",
+   "severity": "medium",
+   "weight": 1.0,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "conflict of interest",
+     "conflicts of interest",
+     "self-dealing",
+     "related-party transactions",
+     "nepotism",
+     "cronyism"
+    ]
+   },
+   "query_terms": [
+    "conflict of interest"
+   ]
+  },
+  {
+   "id": "compliance_controversy",
+   "group": "integrity",
+   "label": "Significant controversy with compliance relevance",
+   "severity": "low",
+   "weight": 0.5,
+   "enabled": true,
+   "patterns": {
+    "en": [
+     "whistleblower",
+     "short seller report",
+     "short-seller report",
+     "allegations of impropriety",
+     "audit failure",
+     "auditor resigned",
+     "refused to sign off"
+    ]
+   },
+   "query_terms": [
+    "whistleblower"
+   ]
+  }
+ ],
+ "not_material": {
+  "civil_dispute": [
+   "divorce",
+   "custody battle",
+   "defamation",
+   "libel",
+   "employment tribunal",
+   "unfair dismissal",
+   "neighbour dispute",
+   "boundary dispute",
+   "probate dispute",
+   "inheritance row",
+   "contract dispute",
+   "copyright infringement",
+   "patent infringement"
+  ],
+  "minor_infraction": [
+   "speeding",
+   "parking ticket",
+   "parking fine",
+   "traffic offence",
+   "driving ban",
+   "drink driving",
+   "drink-driving",
+   "littering",
+   "tv licence"
+  ],
+  "non_financial_context": [
+   "football",
+   "premier league",
+   "match fixing in",
+   "transfer window",
+   "box office",
+   "album",
+   "concert",
+   "recipe",
+   "film review",
+   "fantasy",
+   "video game",
+   "netflix series",
+   "novel",
+   "tv drama",
+   "podcast episode"
+  ]
+ }
+}

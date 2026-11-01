@@ -1,0 +1,2233 @@
+{
+ "_label": "SYNTHETIC LABELLED TEST CASES — fictional subjects, reserved .example domains (RFC 2606). Test use only; never shown as real search results.",
+ "cases": [
+  {
+   "id": "id01",
+   "set": "identity",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/id01",
+    "title": "Businessman jailed for fraud",
+    "snippet": "Halvard Quennell-Broome, 54, of Guildford, was jailed for six years at Southwark Crown Court after being convicted of fraud. The British businessman defrauded investors of £4m.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "identity_min": "probable",
+    "material": true,
+    "event_status": "conviction",
+    "category": "fraud"
+   }
+  },
+  {
+   "id": "id02",
+   "set": "identity",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "age contradicts DOB",
+   "item": {
+    "url": "https://news-t2.fixture.example/id02",
+    "title": "Student charged with fraud",
+    "snippet": "Halvard Quennell-Broome, 23, a student from Melbourne, Australia, has been charged with fraud over a ticket resale scheme.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "low",
+    "identity_max": "unlikely",
+    "material": false
+   }
+  },
+  {
+   "id": "id03",
+   "set": "identity",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {},
+   "note": "no identifiers: name-only can never exceed Possible",
+   "item": {
+    "url": "https://news-t2.fixture.example/id03",
+    "title": "Businessman jailed for fraud",
+    "snippet": "Halvard Quennell-Broome was jailed for six years after being convicted of fraud.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "identity_max": "possible",
+    "material": false
+   }
+  },
+  {
+   "id": "id04",
+   "set": "identity",
+   "subject_type": "individual",
+   "name": "Halvard Peter Quennell-Broome",
+   "identifiers": {
+    "dob": "1971"
+   },
+   "note": "middle name contradicts",
+   "item": {
+    "url": "https://news-t2.fixture.example/id04",
+    "title": "Man convicted of money laundering",
+    "snippet": "Halvard James Quennell-Broome, 54, was convicted of money laundering at Leeds Crown Court.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "identity_max": "possible",
+    "material": false
+   }
+  },
+  {
+   "id": "id05",
+   "set": "identity",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "aliases": [
+     "Hal Broome"
+    ]
+   },
+   "note": "alias match",
+   "item": {
+    "url": "https://news-t2.fixture.example/id05",
+    "title": "Hal Broome guilty of bribery",
+    "snippet": "Former procurement chief Hal Broome, 54, was found guilty of bribery offences at the Old Bailey.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "identity_min": "possible",
+    "category": "bribery_corruption"
+   }
+  },
+  {
+   "id": "id06",
+   "set": "identity",
+   "subject_type": "individual",
+   "name": "John Smith",
+   "identifiers": {},
+   "note": "common name, no identifiers",
+   "item": {
+    "url": "https://news-t2.fixture.example/id06",
+    "title": "John Smith charged with fraud",
+    "snippet": "John Smith was charged with fraud by police on Tuesday.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "identity_max": "possible",
+    "material": false
+   }
+  },
+  {
+   "id": "id07",
+   "set": "identity",
+   "subject_type": "individual",
+   "name": "John Smith",
+   "identifiers": {
+    "dob": "1980-02-02",
+    "country": "United Kingdom"
+   },
+   "note": "common name; age contradicts",
+   "item": {
+    "url": "https://news-t2.fixture.example/id07",
+    "title": "John Smith, 71, convicted of fraud",
+    "snippet": "John Smith, 71, of Texas was convicted of fraud.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "identity_max": "unlikely",
+    "material": false
+   }
+  },
+  {
+   "id": "id08",
+   "set": "identity",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "surname only, no risk",
+   "item": {
+    "url": "https://news-t2.fixture.example/id08",
+    "title": "Quennell-Broome family hosts charity gala",
+    "snippet": "The Quennell-Broome family hosted a charity gala in Surrey. No suggestion of wrongdoing was made.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "low",
+    "material": false
+   }
+  },
+  {
+   "id": "id09",
+   "set": "identity",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "associated_entities": [
+     "Corvina Holdings"
+    ]
+   },
+   "note": "name + known associated company",
+   "item": {
+    "url": "https://news-t2.fixture.example/id09",
+    "title": "Director of Corvina Holdings charged",
+    "snippet": "Halvard Quennell-Broome, a director of Corvina Holdings, has been charged with money laundering offences by the National Crime Agency.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "identity_min": "probable",
+    "event_status": "formal_charge",
+    "category": "money_laundering"
+   }
+  },
+  {
+   "id": "id10",
+   "set": "identity",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/id10",
+    "title": "Born in 1971, fraudster sentenced",
+    "snippet": "Halvard Quennell-Broome, born in 1971, was sentenced for fraud and money laundering.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "identity_min": "probable"
+   }
+  },
+  {
+   "id": "st01",
+   "set": "status",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/st01",
+    "title": "Businessman cleared of fraud",
+    "snippet": "Halvard Quennell-Broome, 54, was acquitted of fraud by a jury at Southwark Crown Court on Friday.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "mitigating",
+    "material": false,
+    "event_status": "acquittal"
+   }
+  },
+  {
+   "id": "st02",
+   "set": "status",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/st02",
+    "title": "Fraud charges dropped",
+    "snippet": "Prosecutors dropped all charges against Halvard Quennell-Broome, 54, in the fraud case, citing insufficient evidence.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "mitigating",
+    "material": false
+   }
+  },
+  {
+   "id": "st03",
+   "set": "status",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/st03",
+    "title": "Conviction quashed",
+    "snippet": "The Court of Appeal quashed the fraud conviction of Halvard Quennell-Broome, 54.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "mitigating",
+    "material": false
+   }
+  },
+  {
+   "id": "st04",
+   "set": "status",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "single-source allegation is not RED",
+   "item": {
+    "url": "https://news-t2.fixture.example/st04",
+    "title": "Allegations of bribery",
+    "snippet": "Halvard Quennell-Broome, 54, has been accused of bribery by a former colleague. He denies the allegations.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "material": false,
+    "event_status": "allegation"
+   }
+  },
+  {
+   "id": "st05",
+   "set": "status",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/st05",
+    "title": "SFO opens investigation",
+    "snippet": "The Serious Fraud Office has opened an investigation into Halvard Quennell-Broome, 54, over suspected bribery.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "event_status": "investigation",
+    "category": "bribery_corruption"
+   }
+  },
+  {
+   "id": "st06",
+   "set": "status",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/st06",
+    "title": "FCA bans adviser",
+    "snippet": "The Financial Conduct Authority fined Halvard Quennell-Broome, 54, £450,000 and banned him from financial services for misleading investors.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "material": true
+   }
+  },
+  {
+   "id": "st07",
+   "set": "status",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/st07",
+    "title": "Fraudster jailed",
+    "snippet": "Halvard Quennell-Broome, 54, pleaded guilty to fraud and was jailed for four years.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "material": true,
+    "event_status": "conviction"
+   }
+  },
+  {
+   "id": "st08",
+   "set": "status",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/st08",
+    "title": "Charity fraud trial",
+    "snippet": "Halvard Quennell-Broome, 54, went on trial charged with fraud by abuse of position.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "event_status": "formal_charge"
+   }
+  },
+  {
+   "id": "st09",
+   "set": "status",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/st09",
+    "title": "Exonerated after inquiry",
+    "snippet": "An inquiry exonerated Halvard Quennell-Broome, 54, finding no evidence of fraud.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "mitigating",
+    "material": false
+   }
+  },
+  {
+   "id": "st10",
+   "set": "status",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/st10",
+    "title": "Settles SEC fraud case",
+    "snippet": "Halvard Quennell-Broome, 54, agreed to pay $2m to settle securities fraud charges brought by the Securities and Exchange Commission.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review"
+   }
+  },
+  {
+   "id": "ro01",
+   "set": "role",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "victim",
+   "item": {
+    "url": "https://news-t2.fixture.example/ro01",
+    "title": "Pensioner loses savings to fraudsters",
+    "snippet": "Halvard Quennell-Broome, 54, was the victim of a fraud in which criminals stole his savings.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "low",
+    "material": false
+   }
+  },
+  {
+   "id": "ro02",
+   "set": "role",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "commentator/expert",
+   "item": {
+    "url": "https://news-t2.fixture.example/ro02",
+    "title": "Expert warns on laundering",
+    "snippet": "Money laundering is rising, said Halvard Quennell-Broome, 54, a financial crime expert at a London university.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "material": false
+   }
+  },
+  {
+   "id": "ro03",
+   "set": "role",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "witness",
+   "item": {
+    "url": "https://news-t2.fixture.example/ro03",
+    "title": "Witness gives evidence in fraud trial",
+    "snippet": "Halvard Quennell-Broome, 54, gave evidence as a prosecution witness in the fraud trial of a former colleague.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "low",
+    "material": false
+   }
+  },
+  {
+   "id": "ro04",
+   "set": "role",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "lawyer",
+   "item": {
+    "url": "https://news-t2.fixture.example/ro04",
+    "title": "Lawyer represents accused",
+    "snippet": "Halvard Quennell-Broome, 54, a barrister representing the defendant in the money laundering trial, told the court his client was innocent.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "material": false
+   }
+  },
+  {
+   "id": "ro05",
+   "set": "role",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "journalist",
+   "item": {
+    "url": "https://news-t2.fixture.example/ro05",
+    "title": "Journalist exposes fraud ring",
+    "snippet": "An investigation by journalist Halvard Quennell-Broome, 54, exposed a fraud ring operating in Kent.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "material": false
+   }
+  },
+  {
+   "id": "ro06",
+   "set": "role",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "whistleblower",
+   "item": {
+    "url": "https://news-t2.fixture.example/ro06",
+    "title": "Whistleblower revealed bribery",
+    "snippet": "Whistleblower Halvard Quennell-Broome, 54, revealed the bribery scheme to regulators.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "material": false
+   }
+  },
+  {
+   "id": "ro07",
+   "set": "role",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "judge",
+   "item": {
+    "url": "https://news-t2.fixture.example/ro07",
+    "title": "Judge sentences fraudster",
+    "snippet": "Judge Halvard Quennell-Broome, 54, sentenced the fraudster to seven years.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "material": false
+   }
+  },
+  {
+   "id": "ro08",
+   "set": "role",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "positive news",
+   "item": {
+    "url": "https://news-t2.fixture.example/ro08",
+    "title": "Award for business leader",
+    "snippet": "Halvard Quennell-Broome, 54, received an award for services to business at a ceremony in London.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "low",
+    "material": false
+   }
+  },
+  {
+   "id": "en01",
+   "set": "entity",
+   "subject_type": "entity",
+   "name": "Corvina Holdings Ltd",
+   "identifiers": {
+    "jurisdiction": "United Kingdom",
+    "registration_number": "09876543"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/en01",
+    "title": "Corvina Holdings fined by FCA",
+    "snippet": "The Financial Conduct Authority fined Corvina Holdings Ltd £3.1m for anti-money laundering failings. The London-based firm, company number 09876543, accepted the findings.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "identity_min": "probable",
+    "material": true
+   }
+  },
+  {
+   "id": "en02",
+   "set": "entity",
+   "subject_type": "entity",
+   "name": "Corvina Holdings Ltd",
+   "identifiers": {
+    "jurisdiction": "United Kingdom",
+    "registration_number": "09876543"
+   },
+   "note": "legal form + reg number contradict",
+   "item": {
+    "url": "https://news-t2.fixture.example/en02",
+    "title": "Corvina Holdings Inc accused",
+    "snippet": "Corvina Holdings Inc, a Delaware corporation, company number 55512345, was charged with securities fraud in New York.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "identity_max": "possible",
+    "material": false
+   }
+  },
+  {
+   "id": "en03",
+   "set": "entity",
+   "subject_type": "entity",
+   "name": "Corvina Holdings Ltd",
+   "identifiers": {
+    "jurisdiction": "United Kingdom"
+   },
+   "note": "connected person, not company",
+   "item": {
+    "url": "https://news-t2.fixture.example/en03",
+    "title": "Former Corvina executive charged",
+    "snippet": "A former executive of Corvina Holdings Ltd was charged with fraud. The company said it was cooperating with police and was not under investigation.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "material": false
+   }
+  },
+  {
+   "id": "en04",
+   "set": "entity",
+   "subject_type": "entity",
+   "name": "Corvina Holdings Ltd",
+   "identifiers": {
+    "jurisdiction": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/en04",
+    "title": "Corvina Holdings named in tax evasion probe",
+    "snippet": "HMRC has opened a criminal investigation into Corvina Holdings Ltd, the London company, over alleged tax evasion.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "category": "tax_evasion"
+   }
+  },
+  {
+   "id": "en05",
+   "set": "entity",
+   "subject_type": "entity",
+   "name": "Corvina Holdings Ltd",
+   "identifiers": {
+    "jurisdiction": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/en05",
+    "title": "Corvina Holdings wins export award",
+    "snippet": "Corvina Holdings Ltd of London won the Queen's Award for Enterprise for its export growth.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "low",
+    "material": false
+   }
+  },
+  {
+   "id": "en06",
+   "set": "entity",
+   "subject_type": "entity",
+   "name": "Corvina Holdings Ltd",
+   "identifiers": {
+    "jurisdiction": "United Kingdom"
+   },
+   "note": "victim",
+   "item": {
+    "url": "https://news-t2.fixture.example/en06",
+    "title": "Corvina Holdings victim of cyber attack",
+    "snippet": "Corvina Holdings Ltd was the victim of a cyber fraud in which hackers stole £200,000 from the London firm.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "material": false
+   }
+  },
+  {
+   "id": "en07",
+   "set": "entity",
+   "subject_type": "entity",
+   "name": "Corvina Holdings Ltd",
+   "identifiers": {
+    "jurisdiction": "United Kingdom"
+   },
+   "note": "civil dispute not material",
+   "item": {
+    "url": "https://news-t2.fixture.example/en07",
+    "title": "Corvina Holdings in contract dispute",
+    "snippet": "Corvina Holdings Ltd is in a contract dispute with a supplier in London over unpaid invoices.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "material": false
+   }
+  },
+  {
+   "id": "en08",
+   "set": "entity",
+   "subject_type": "entity",
+   "name": "Corvina Holdings Ltd",
+   "identifiers": {
+    "jurisdiction": "United Kingdom",
+    "directors": [
+     "Halvard Quennell-Broome"
+    ]
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/en08",
+    "title": "Corvina boss convicted",
+    "snippet": "Corvina Holdings Ltd director Halvard Quennell-Broome was convicted of fraud; the London company was fined £1m for its role in the scheme.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "identity_min": "probable"
+   }
+  },
+  {
+   "id": "en09",
+   "set": "entity",
+   "subject_type": "entity",
+   "name": "Corvina Holdings Ltd",
+   "identifiers": {
+    "jurisdiction": "United Kingdom"
+   },
+   "note": "subsidiary = connected party",
+   "item": {
+    "url": "https://news-t2.fixture.example/en09",
+    "title": "Corvina subsidiary sanctioned",
+    "snippet": "A subsidiary of Corvina Holdings Ltd was fined for sanctions breaches by OFSI.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "material": false
+   }
+  },
+  {
+   "id": "en10",
+   "set": "entity",
+   "subject_type": "entity",
+   "name": "Corvina Holdings Ltd",
+   "identifiers": {
+    "jurisdiction": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/en10",
+    "title": "Corvina Holdings cleared",
+    "snippet": "Corvina Holdings Ltd was cleared of wrongdoing after a regulatory investigation found no evidence of money laundering.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "mitigating",
+    "material": false
+   }
+  },
+  {
+   "id": "ml01",
+   "set": "multilingual",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/ml01",
+    "title": "Geschäftsmann wegen Geldwäsche verurteilt",
+    "snippet": "Halvard Quennell-Broome (54) wurde in Frankfurt wegen Geldwäsche verurteilt.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "de",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "category": "money_laundering"
+   }
+  },
+  {
+   "id": "ml02",
+   "set": "multilingual",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/ml02",
+    "title": "Homme d'affaires condamné pour blanchiment",
+    "snippet": "Halvard Quennell-Broome, 54 ans, a été condamné pour blanchiment d'argent à Paris.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "fr",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "category": "money_laundering"
+   }
+  },
+  {
+   "id": "ml03",
+   "set": "multilingual",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/ml03",
+    "title": "Empresario detenido por blanqueo",
+    "snippet": "Halvard Quennell-Broome, de 54 años, fue detenido por blanqueo de capitales en Madrid.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "es",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "category": "money_laundering"
+   }
+  },
+  {
+   "id": "ml04",
+   "set": "multilingual",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/ml04",
+    "title": "Imprenditore condannato per riciclaggio",
+    "snippet": "Halvard Quennell-Broome, 54 anni, è stato condannato per riciclaggio a Milano.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "it",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "category": "money_laundering"
+   }
+  },
+  {
+   "id": "ml05",
+   "set": "multilingual",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/ml05",
+    "title": "Empresário acusado de lavagem de dinheiro",
+    "snippet": "Halvard Quennell-Broome, 54 anos, foi acusado de lavagem de dinheiro em Lisboa.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "pt",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "category": "money_laundering"
+   }
+  },
+  {
+   "id": "ml06",
+   "set": "multilingual",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/ml06",
+    "title": "Zakenman veroordeeld voor witwassen",
+    "snippet": "Halvard Quennell-Broome (54) is in Amsterdam veroordeeld voor witwassen.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "nl",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "category": "money_laundering"
+   }
+  },
+  {
+   "id": "ml07",
+   "set": "multilingual",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/ml07",
+    "title": "Geschäftsmann freigesprochen",
+    "snippet": "Halvard Quennell-Broome (54) wurde vom Vorwurf der Geldwäsche freigesprochen.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "de",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "mitigating",
+    "material": false
+   }
+  },
+  {
+   "id": "ml08",
+   "set": "multilingual",
+   "subject_type": "entity",
+   "name": "Corvina Holdings Ltd",
+   "identifiers": {
+    "jurisdiction": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/ml08",
+    "title": "Corvina Holdings soupçonnée de corruption",
+    "snippet": "La société Corvina Holdings Ltd est soupçonnée de corruption au Royaume-Uni.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "fr",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "category": "bribery_corruption"
+   }
+  },
+  {
+   "id": "cr01",
+   "set": "credibility",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "tier-4 single allegation",
+   "item": {
+    "url": "https://blog-t4.fixture.example/cr01",
+    "title": "Blog claims fraud",
+    "snippet": "Halvard Quennell-Broome, 54, of Guildford, is accused of fraud, an anonymous blog claims.",
+    "source_domain": "blog-t4.fixture.example",
+    "source_name": "blog-t4",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 4
+    }
+   },
+   "expected": {
+    "material": false
+   }
+  },
+  {
+   "id": "cr02",
+   "set": "credibility",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://regulator-t1.fixture.example/cr02",
+    "title": "Regulator final notice",
+    "snippet": "Final Notice: the Authority has fined Halvard Quennell-Broome, 54, of Guildford, for failing to act with integrity and banned him.",
+    "source_domain": "regulator-t1.fixture.example",
+    "source_name": "regulator-t1",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 1
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "material": true
+   }
+  },
+  {
+   "id": "cr03",
+   "set": "credibility",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "tier 3 single source below RED tier",
+   "item": {
+    "url": "https://trade-t3.fixture.example/cr03",
+    "title": "Trade press: adviser convicted",
+    "snippet": "Halvard Quennell-Broome, 54, of Guildford, was convicted of fraud, trade publication reports.",
+    "source_domain": "trade-t3.fixture.example",
+    "source_name": "trade-t3",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 3
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "material": false
+   }
+  },
+  {
+   "id": "nm01",
+   "set": "not_material",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/nm01",
+    "title": "Speeding fine",
+    "snippet": "Halvard Quennell-Broome, 54, of Guildford, was fined £100 for speeding.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "material": false,
+    "bucket": "low"
+   }
+  },
+  {
+   "id": "nm02",
+   "set": "not_material",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/nm02",
+    "title": "Planning dispute",
+    "snippet": "Halvard Quennell-Broome, 54, is in a planning dispute with Guildford council over an extension.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "material": false,
+    "bucket": "low"
+   }
+  },
+  {
+   "id": "nm03",
+   "set": "not_material",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "risk term in other sentence",
+   "item": {
+    "url": "https://news-t2.fixture.example/nm03",
+    "title": "Fraud awareness talk",
+    "snippet": "Halvard Quennell-Broome, 54, spoke about his garden. Separately, police warned residents about phone fraud.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "material": false
+   }
+  },
+  {
+   "id": "nm04",
+   "set": "not_material",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/nm04",
+    "title": "Wins marathon",
+    "snippet": "Halvard Quennell-Broome, 54, completed the London marathon in under four hours.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "low",
+    "material": false
+   }
+  },
+  {
+   "id": "nm05",
+   "set": "not_material",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/nm05",
+    "title": "Fantasy novel review",
+    "snippet": "Halvard Quennell-Broome, 54, has published a crime novel about a fictional money launderer.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "material": false
+   }
+  },
+  {
+   "id": "tm01",
+   "set": "temporal",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/tm01",
+    "title": "Fraud conviction in 1998",
+    "snippet": "Halvard Quennell-Broome, 27, was convicted of fraud in 1998 at Guildford Crown Court.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "1998-05-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review"
+   }
+  },
+  {
+   "id": "tm02",
+   "set": "temporal",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/tm02",
+    "title": "Recent bribery charge",
+    "snippet": "Halvard Quennell-Broome, 55, was charged with bribery last week.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2026-09-15",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "event_status": "formal_charge"
+   }
+  },
+  {
+   "id": "sc01",
+   "set": "serious",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/sc01",
+    "title": "Drug trafficking conviction",
+    "snippet": "Halvard Quennell-Broome, 54, was jailed for drug trafficking after police found cocaine worth £2m.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "material": true,
+    "category": "drug_trafficking"
+   }
+  },
+  {
+   "id": "sc02",
+   "set": "serious",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/sc02",
+    "title": "Human trafficking charge",
+    "snippet": "Halvard Quennell-Broome, 54, has been charged with human trafficking and modern slavery offences.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "event_status": "formal_charge"
+   }
+  },
+  {
+   "id": "sc03",
+   "set": "serious",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/sc03",
+    "title": "Terror financing arrest",
+    "snippet": "Halvard Quennell-Broome, 54, was arrested on suspicion of terrorist financing.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "category": "terrorist_financing"
+   }
+  },
+  {
+   "id": "sc04",
+   "set": "serious",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/sc04",
+    "title": "Sanctions evasion",
+    "snippet": "Halvard Quennell-Broome, 54, was convicted of breaching Russia sanctions by exporting military components.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "category": "sanctions_breach"
+   }
+  },
+  {
+   "id": "sc05",
+   "set": "serious",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/sc05",
+    "title": "Insider dealing",
+    "snippet": "Halvard Quennell-Broome, 54, was convicted of insider dealing after an FCA prosecution.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "material": true
+   }
+  },
+  {
+   "id": "sc06",
+   "set": "serious",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/sc06",
+    "title": "Embezzlement from charity",
+    "snippet": "Halvard Quennell-Broome, 54, was found guilty of embezzlement after stealing £300,000 from a charity he ran.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "material": true
+   }
+  },
+  {
+   "id": "sc07",
+   "set": "serious",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/sc07",
+    "title": "Ponzi scheme",
+    "snippet": "Halvard Quennell-Broome, 54, ran a Ponzi scheme that took £20m from investors, a court heard before he was convicted.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "material": true
+   }
+  },
+  {
+   "id": "sc08",
+   "set": "serious",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/sc08",
+    "title": "Disqualified director",
+    "snippet": "Halvard Quennell-Broome, 54, has been disqualified as a company director for eight years by the Insolvency Service.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review"
+   }
+  },
+  {
+   "id": "ro09",
+   "set": "role",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "'defrauded investors' is perpetrator, not victim",
+   "item": {
+    "url": "https://news-t2.fixture.example/ro09",
+    "title": "Businessman defrauded investors",
+    "snippet": "Halvard Quennell-Broome, 54, defrauded investors of £4m and was jailed for fraud.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "material": true
+   }
+  },
+  {
+   "id": "ro10",
+   "set": "role",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "office-holder is not a bystander role",
+   "item": {
+    "url": "https://news-t2.fixture.example/ro10",
+    "title": "Minister charged with corruption",
+    "snippet": "Minister Halvard Quennell-Broome, 54, was charged with corruption by anti-graft prosecutors.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "event_status": "formal_charge"
+   }
+  },
+  {
+   "id": "ro11",
+   "set": "role",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "professional who is the subject of action",
+   "item": {
+    "url": "https://news-t2.fixture.example/ro11",
+    "title": "Solicitor struck off",
+    "snippet": "Solicitor Halvard Quennell-Broome, 54, was struck off for misusing client funds.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review"
+   }
+  },
+  {
+   "id": "ro12",
+   "set": "role",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "subject is the lawyer's client",
+   "item": {
+    "url": "https://news-t2.fixture.example/ro12",
+    "title": "Lawyer for accused speaks",
+    "snippet": "The lawyer for Halvard Quennell-Broome, 54, said his client would appeal his fraud conviction.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review"
+   }
+  },
+  {
+   "id": "ro13",
+   "set": "role",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "prosecutors are not the subject",
+   "item": {
+    "url": "https://news-t2.fixture.example/ro13",
+    "title": "Prosecutors drop case",
+    "snippet": "Prosecutors dropped the money laundering case against Halvard Quennell-Broome, 54.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "mitigating",
+    "material": false
+   }
+  },
+  {
+   "id": "ho01",
+   "set": "holdout",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/ho01",
+    "title": "Adviser admits laundering",
+    "snippet": "Halvard Quennell-Broome, 54, admitted laundering £1.2m for a drugs gang and will be sentenced next month.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "category": "money_laundering"
+   }
+  },
+  {
+   "id": "ho02",
+   "set": "holdout",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/ho02",
+    "title": "Investor wins case against bank",
+    "snippet": "Halvard Quennell-Broome, 54, won his case against a bank that had mis-sold him investments.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "material": false
+   }
+  },
+  {
+   "id": "ho03",
+   "set": "holdout",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/ho03",
+    "title": "Ex-banker jailed over Libor",
+    "snippet": "Former banker Halvard Quennell-Broome, 54, was jailed for market manipulation over Libor rigging.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "material": true
+   }
+  },
+  {
+   "id": "ho04",
+   "set": "holdout",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "police officer role",
+   "item": {
+    "url": "https://news-t2.fixture.example/ho04",
+    "title": "Detective praised",
+    "snippet": "Detective Halvard Quennell-Broome, 54, was praised for breaking up a money laundering gang.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "material": false
+   }
+  },
+  {
+   "id": "ho05",
+   "set": "holdout",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/ho05",
+    "title": "Tax fraud charge",
+    "snippet": "HMRC has charged Halvard Quennell-Broome, 54, with tax evasion worth £800,000.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "category": "tax_evasion"
+   }
+  },
+  {
+   "id": "ho06",
+   "set": "holdout",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/ho06",
+    "title": "Jury clears accountant",
+    "snippet": "A jury found Halvard Quennell-Broome, 54, not guilty of false accounting.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "mitigating",
+    "material": false
+   }
+  },
+  {
+   "id": "ho07",
+   "set": "holdout",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "age contradicts",
+   "item": {
+    "url": "https://news-t2.fixture.example/ho07",
+    "title": "Businessman, 31, arrested",
+    "snippet": "Halvard Quennell-Broome, 31, from Ontario, Canada, was arrested for fraud.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "identity_max": "unlikely",
+    "material": false
+   }
+  },
+  {
+   "id": "ho08",
+   "set": "holdout",
+   "subject_type": "individual",
+   "name": "Halvard Quennell-Broome",
+   "identifiers": {
+    "dob": "1971-03-14",
+    "nationality": "United Kingdom",
+    "country": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/ho08",
+    "title": "Charity boss under investigation",
+    "snippet": "The Charity Commission is investigating Halvard Quennell-Broome, 54, over the misuse of donations.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review"
+   }
+  },
+  {
+   "id": "ho09",
+   "set": "holdout",
+   "subject_type": "entity",
+   "name": "Corvina Holdings Ltd",
+   "identifiers": {
+    "jurisdiction": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/ho09",
+    "title": "Corvina Holdings fined for AML failures",
+    "snippet": "The FCA fined Corvina Holdings Ltd, the London firm, £2m after finding serious anti-money laundering failings.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "material": true
+   }
+  },
+  {
+   "id": "ho10",
+   "set": "holdout",
+   "subject_type": "entity",
+   "name": "Corvina Holdings Ltd",
+   "identifiers": {
+    "jurisdiction": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/ho10",
+    "title": "Corvina Holdings sponsors festival",
+    "snippet": "Corvina Holdings Ltd of London is the main sponsor of a summer music festival.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "low",
+    "material": false
+   }
+  },
+  {
+   "id": "ho11",
+   "set": "holdout",
+   "subject_type": "entity",
+   "name": "Corvina Holdings Ltd",
+   "identifiers": {
+    "jurisdiction": "United Kingdom"
+   },
+   "note": "clone/impersonation victim",
+   "item": {
+    "url": "https://news-t2.fixture.example/ho11",
+    "title": "Corvina impersonated by scammers",
+    "snippet": "Scammers impersonating Corvina Holdings Ltd have targeted investors with fake bonds.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "material": false
+   }
+  },
+  {
+   "id": "ho12",
+   "set": "holdout",
+   "subject_type": "entity",
+   "name": "Corvina Holdings Ltd",
+   "identifiers": {
+    "jurisdiction": "United Kingdom"
+   },
+   "note": "",
+   "item": {
+    "url": "https://news-t2.fixture.example/ho12",
+    "title": "Corvina Holdings charged with bribery",
+    "snippet": "The Serious Fraud Office has charged Corvina Holdings Ltd, the London company, with failing to prevent bribery.",
+    "source_domain": "news-t2.fixture.example",
+    "source_name": "news-t2",
+    "published_at": "2025-06-01",
+    "language": "en",
+    "extra": {
+     "fixture_tier": 2
+    }
+   },
+   "expected": {
+    "bucket": "review",
+    "event_status": "formal_charge"
+   }
+  }
+ ],
+ "_holdout_note": "Cases with set=holdout were written after the rule fixes and run once; results are reported as-is (no tuning against them)."
+}

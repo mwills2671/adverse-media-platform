@@ -1,0 +1,85 @@
+{
+ "subject": {
+  "subject_type": "entity",
+  "name": "Corvina Holdings Ltd",
+  "identifiers": {
+   "jurisdiction": "United Kingdom"
+  }
+ },
+ "expected": {
+  "clusters": 2
+ },
+ "items": [
+  {
+   "url": "https://news-t2.fixture.example/fca-fine?utm_source=rss",
+   "title": "Corvina Holdings fined £3m by FCA over money laundering failings",
+   "provider": "test_fixtures",
+   "source_name": "news-t2",
+   "source_domain": "news-t2.fixture.example",
+   "published_at": "2025-06-01",
+   "snippet": "The FCA fined Corvina Holdings Ltd, the London firm, £3.1m for anti-money laundering failings.",
+   "language": "en",
+   "extra": {
+    "fixture_tier": 2,
+    "fixture": true
+   }
+  },
+  {
+   "url": "https://news-t2.fixture.example/fca-fine",
+   "title": "Corvina Holdings fined £3m by FCA over money laundering failings",
+   "provider": "test_fixtures",
+   "source_name": "news-t2",
+   "source_domain": "news-t2.fixture.example",
+   "published_at": "2025-06-01",
+   "snippet": "The FCA fined Corvina Holdings Ltd £3.1m.",
+   "language": "en",
+   "extra": {
+    "fixture_tier": 2,
+    "fixture": true
+   }
+  },
+  {
+   "url": "https://wire-t2b.fixture.example/corvina",
+   "title": "Corvina Holdings fined £3m by FCA over money laundering failings - Wire",
+   "provider": "test_fixtures",
+   "source_name": "wire-t2b",
+   "source_domain": "wire-t2b.fixture.example",
+   "published_at": "2025-06-01",
+   "snippet": "The FCA fined Corvina Holdings Ltd £3.1m for AML failings.",
+   "language": "en",
+   "extra": {
+    "fixture_tier": 2,
+    "fixture": true
+   }
+  },
+  {
+   "url": "https://trade-t3.fixture.example/corvina-fca",
+   "title": "Corvina Holdings fined £3m by FCA over money laundering failings, regulator says",
+   "provider": "test_fixtures",
+   "source_name": "trade-t3",
+   "source_domain": "trade-t3.fixture.example",
+   "published_at": "2025-06-01",
+   "snippet": "The FCA fined Corvina Holdings Ltd, the London firm, £3.1m.",
+   "language": "en",
+   "extra": {
+    "fixture_tier": 3,
+    "fixture": true
+   }
+  },
+  {
+   "url": "https://news-t2.fixture.example/festival",
+   "title": "Corvina Holdings sponsors summer festival",
+   "provider": "test_fixtures",
+   "source_name": "news-t2",
+   "source_domain": "news-t2.fixture.example",
+   "published_at": "2025-06-01",
+   "snippet": "Corvina Holdings Ltd of London is the main sponsor of a summer music festival.",
+   "language": "en",
+   "extra": {
+    "fixture_tier": 2,
+    "fixture": true
+   }
+  }
+ ],
+ "_label": "SYNTHETIC TEST FIXTURE — fictional subject, reserved .example domains. Test mode only; never a real search result."
+}
