@@ -167,3 +167,12 @@ labelled fixture, parent linking and highest-RAG roll-up, audit actions, PDF sec
 PDF for each contained the consolidated summary, the date window row and the related-parties table. Screenshots:
 `shots/v2_*_{desktop,mobile}.png` (login, new screening, and for each subject the verdict/overview, findings, related
 parties, sources and audit tabs, plus a child screening).
+
+### 6.3 Production (Render, commit 5464840, deploy live 02:23 GMT on 1 Nov 2026)
+- The new SPA bundle is served, and unauthenticated API calls are rejected with 401.
+- **The authenticated live smoke test was not run.** Logging in as `admin` with the password the user set in the app
+  returned 401, both before and after the deploy. Production still runs on ephemeral SQLite, so restarts, redeploys
+  and free-tier spin-downs wipe the database. The admin is then re-seeded from the Render `ADMIN_PASSWORD` env var,
+  and a password changed in the app does not survive. No further attempts were made, to avoid the account lockout.
+  To fix: set Render `ADMIN_PASSWORD` to the desired password (or attach Postgres), then re-run
+  `scripts/v2_e2e.py BASE admin PWFILE "PASHA Bank|{\"jurisdiction\":\"Azerbaijan\"}" --screen-child`.
