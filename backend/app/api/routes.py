@@ -107,6 +107,7 @@ def meta(user: User = Depends(current_user), db: Session = Depends(get_db)):
     tax = settings_store.get_taxonomy(db)
     return {"providers": provider_catalog(), "test_mode": settings.test_mode, "llm_enabled": settings.llm_enabled,
             "llm_model": settings.llm_model if settings.llm_enabled else None, "app_env": settings.app_env,
+            "ephemeral_storage": settings.is_production and settings.database_url.startswith("sqlite"),
             "taxonomy": {"groups": tax["groups"], "categories": [{k: c[k] for k in ("id", "group", "label", "severity", "weight", "enabled")}
                                                                  for c in tax["categories"]]},
             "statuses": [{"id": s, "label": STATUS_LABEL[s]} for s in STATUS_ORDER + ["unknown"]],

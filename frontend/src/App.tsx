@@ -67,6 +67,7 @@ export default function App() {
         </div>
       </nav>}
     </header>
+    {meta?.ephemeral_storage && <div className="bg-amber-600 text-white text-center text-xs py-1 font-semibold">TEMPORARY STORAGE — no persistent database is attached yet; screenings and audit records may be lost on restart.</div>}
     {meta?.test_mode && <div className="bg-fuchsia-700 text-white text-center text-xs py-1 font-semibold">TEST MODE — labelled fixtures and fault injection available. Not for production use.</div>}
     <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6">
       <Routes>

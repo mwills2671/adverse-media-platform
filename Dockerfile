@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends fonts-dejavu-co
     && rm -rf /var/lib/apt/lists/* && useradd -r -u 10001 -m app
 WORKDIR /app
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && mkdir -p /app/backend && chown app /app/backend
 COPY backend/app ./backend/app
 COPY --from=web /web/dist ./frontend/dist
 ENV STATIC_DIR=/app/frontend/dist

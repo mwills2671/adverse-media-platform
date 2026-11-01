@@ -40,7 +40,7 @@ export async function download(path: string, filename: string) {
 
 export type User = { username: string; role: "admin" | "analyst" | "readonly" };
 export type Meta = {
-  providers: any[]; test_mode: boolean; llm_enabled: boolean; llm_model: string | null; app_env: string;
+  providers: any[]; test_mode: boolean; llm_enabled: boolean; llm_model: string | null; app_env: string; ephemeral_storage?: boolean;
   taxonomy: { groups: any; categories: { id: string; group: string; label: string; severity: string; weight: number; enabled: boolean }[] };
   statuses: { id: string; label: string }[]; dispositions: Record<string, string>; stages: string[]; fixture_sets: string[];
 };
