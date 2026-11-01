@@ -15,6 +15,9 @@ from .security import seed_admin
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
 log = logging.getLogger("ams")
+# Request URLs contain screened subjects' names (personal data): keep them out of platform logs (UK GDPR data minimisation).
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("httpcore").setLevel(logging.WARNING)
 
 app = FastAPI(title="Adverse Media Screening", docs_url=None if settings.is_production else "/api/docs",
               redoc_url=None, openapi_url=None if settings.is_production else "/api/openapi.json")

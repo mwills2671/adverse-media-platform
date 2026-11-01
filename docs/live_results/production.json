@@ -1,0 +1,376 @@
+{
+ "base": "https://adverse-media-platform.onrender.com",
+ "run_at": "2026-11-01 00:55 GMT",
+ "results": [
+  {
+   "case": "T2_wirecard",
+   "name": "Wirecard AG",
+   "identifiers": {
+    "jurisdiction": "Germany"
+   },
+   "expected": "RED",
+   "screening_id": "AMS-20261101-IPDOJE",
+   "status": "AMBER",
+   "incomplete": false,
+   "duration_s": 70,
+   "pass": false,
+   "counts": {
+    "review": 133,
+    "mitigating": 0,
+    "low": 120,
+    "material": 0
+   },
+   "providers": [
+    {
+     "id": "google_news",
+     "status": "ok",
+     "results": 331,
+     "error": null
+    },
+    {
+     "id": "gdelt",
+     "status": "failed",
+     "results": 0,
+     "error": "ProviderError: timeout"
+    },
+    {
+     "id": "bing_news",
+     "status": "ok",
+     "results": 35,
+     "error": null
+    },
+    {
+     "id": "govuk",
+     "status": "ok",
+     "results": 1,
+     "error": null
+    },
+    {
+     "id": "doj",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "sec_litigation",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "companies_house",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires COMPANIES_HOUSE_API_KEY"
+    },
+    {
+     "id": "courtlistener",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires COURTLISTENER_API_TOKEN"
+    },
+    {
+     "id": "newsapi",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires NEWSAPI_KEY"
+    },
+    {
+     "id": "gnews",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires GNEWS_API_KEY"
+    },
+    {
+     "id": "brave",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires BRAVE_API_KEY"
+    },
+    {
+     "id": "serper",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires SERPER_API_KEY"
+    },
+    {
+     "id": "bing_web",
+     "status": "disabled",
+     "results": 0,
+     "error": "Not searched: provider disabled"
+    }
+   ],
+   "reasons": [
+    "133 finding(s) require analyst review",
+    "Coverage note (minimum coverage still met): Core provider(s) unavailable: gdelt"
+   ],
+   "identity_levels_in_review": [
+    "possible",
+    "probable"
+   ],
+   "top_material": [],
+   "top_review": [
+    {
+     "title": "Wirecard Scandal Fresh Leads Point to a Gambling Kingpin",
+     "url": "https://www.tagesschau.de/investigativ/br-recherche/wirecard-marsalek-braun-calvin-ayre-102.html",
+     "identity": "possible",
+     "status": "regulatory_finding"
+    },
+    {
+     "title": "Wirecard fraud trial begins in Germany",
+     "url": "https://www.dw.com/en/wirecard-trial-against-fraudulent-fintech-star-kicks-off-in-germany/a-64011129",
+     "identity": "possible",
+     "status": "regulatory_finding"
+    },
+    {
+     "title": "NEWS: Ex-Wirecard exec Jan Marsalek linked to Russia\u2019s \u2018Smart\u2019 money laundering network",
+     "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPVUVoUkw2VjlSMTFMSGQ3cWtMdHBzNW9SNHlkN1h3WUFOUDRyUzBCY1NDVTcyOEZvTmplMkg1Z25Pa3RJWFg3bS1ReHVkYjhwOGg5Y29LcER6cnQ4RXV5NVJ3cDJWcFVJdWQyR0sxZTFtV3pOZlFfUnpwT053YUJLYVowT3VkZUUzUjR1dEVjYjl5UHZTWk5LZWJpY1JVQWI0WVJZQmxpcmtrdU01elB1R1BuVTVXZXVzUUtrZ2hIMS1GUQ?oc=5",
+     "identity": "possible",
+     "status": "unknown"
+    }
+   ],
+   "pdf_ok": true
+  },
+  {
+   "case": "T4_obscure",
+   "name": "Quillon Dravenmoor-Tesk",
+   "identifiers": {},
+   "expected": "GREEN",
+   "screening_id": "AMS-20261101-TOZLEY",
+   "status": "GREEN",
+   "incomplete": false,
+   "duration_s": 29,
+   "pass": true,
+   "counts": {
+    "review": 0,
+    "mitigating": 0,
+    "low": 0,
+    "material": 0
+   },
+   "providers": [
+    {
+     "id": "google_news",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "gdelt",
+     "status": "failed",
+     "results": 0,
+     "error": "ProviderError: timeout"
+    },
+    {
+     "id": "bing_news",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "govuk",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "doj",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "sec_litigation",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "companies_house",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires COMPANIES_HOUSE_API_KEY"
+    },
+    {
+     "id": "courtlistener",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires COURTLISTENER_API_TOKEN"
+    },
+    {
+     "id": "newsapi",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires NEWSAPI_KEY"
+    },
+    {
+     "id": "gnews",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires GNEWS_API_KEY"
+    },
+    {
+     "id": "brave",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires BRAVE_API_KEY"
+    },
+    {
+     "id": "serper",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires SERPER_API_KEY"
+    },
+    {
+     "id": "bing_web",
+     "status": "disabled",
+     "results": 0,
+     "error": "Not searched: provider disabled"
+    }
+   ],
+   "reasons": [
+    "No relevant unresolved adverse media identified in the sources searched",
+    "Coverage note (minimum coverage still met): Core provider(s) unavailable: gdelt"
+   ],
+   "identity_levels_in_review": [],
+   "top_material": [],
+   "top_review": [],
+   "pdf_ok": true
+  },
+  {
+   "case": "T5b_ids_after",
+   "name": "Nick Leeson",
+   "identifiers": {
+    "dob": "1967-02-25",
+    "nationality": "United Kingdom",
+    "employer": "Barings"
+   },
+   "expected": "RED",
+   "screening_id": "AMS-20261101-52Z3T0",
+   "status": "AMBER",
+   "incomplete": false,
+   "duration_s": 42,
+   "pass": false,
+   "counts": {
+    "review": 4,
+    "mitigating": 0,
+    "low": 157,
+    "material": 0
+   },
+   "providers": [
+    {
+     "id": "google_news",
+     "status": "ok",
+     "results": 275,
+     "error": null
+    },
+    {
+     "id": "gdelt",
+     "status": "failed",
+     "results": 0,
+     "error": "ProviderError: timeout"
+    },
+    {
+     "id": "bing_news",
+     "status": "ok",
+     "results": 2,
+     "error": null
+    },
+    {
+     "id": "govuk",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "doj",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "sec_litigation",
+     "status": "ok",
+     "results": 0,
+     "error": null
+    },
+    {
+     "id": "companies_house",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires COMPANIES_HOUSE_API_KEY"
+    },
+    {
+     "id": "courtlistener",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires COURTLISTENER_API_TOKEN"
+    },
+    {
+     "id": "newsapi",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires NEWSAPI_KEY"
+    },
+    {
+     "id": "gnews",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires GNEWS_API_KEY"
+    },
+    {
+     "id": "brave",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires BRAVE_API_KEY"
+    },
+    {
+     "id": "serper",
+     "status": "disabled-no-key",
+     "results": 0,
+     "error": "Not searched: requires SERPER_API_KEY"
+    },
+    {
+     "id": "bing_web",
+     "status": "disabled",
+     "results": 0,
+     "error": "Not searched: provider disabled"
+    }
+   ],
+   "reasons": [
+    "4 finding(s) require analyst review",
+    "Coverage note (minimum coverage still met): Core provider(s) unavailable: gdelt"
+   ],
+   "identity_levels_in_review": [
+    "confirmed",
+    "possible"
+   ],
+   "top_material": [],
+   "top_review": [
+    {
+     "title": "Legends of Trading: Nick Leeson",
+     "url": "https://www.timothysykes.com/blog/nick-leeson/",
+     "identity": "confirmed",
+     "status": "unknown"
+    },
+    {
+     "title": "City Diary: Barings fraudster Nick Leeson wants his children to follow in his footsteps",
+     "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxObXVQWkVhWjVRem00M1VfbjVMSTRnMFFKZG8zUFFNZWg4bTYzaHRsQ3BIUjlqVVZvNjZ3OW5aUnJuMF9hLTlUX2w0d19uX3hSNWpZYzdYS3ZLXzFQVUNKSy1TSmtwb0VwZERYSUhzcU9FSmswalpHM1pNYzE5WFlNQ0xFbUFQWmlwS3F6TUdFa2J2UzZwZ0lPWmpReWVlM3RJT2xPRzRBRFByeGM4UEZ0dEpYTjMwQk9PLTV6X2V5U3k3X3NJZ3NyMUdBNDBrWm9yLUpveGFQTFZyQVExV2JSV3dWTVdkQWZmVmc?oc=5",
+     "identity": "possible",
+     "status": "unknown"
+    },
+    {
+     "title": "La incre\u00edble historia de Nick Leeson, el inversor millonario acusado de estafar y provocar la quiebra del banco de la reina de Inglaterra",
+     "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxPTGlhMXNEZjJwM1kzUUw1eEJROVRzTS1NMGZQdS1Bd3AtdV9kRjE5ZDQ3OUlSYTBnVmloanB6TDhyazBkQlQ0dW80TjViOGVqS2FFOGZmTE9na3NCNWxOZWhWdWd5VEYwLXlJa2VNR1BGZUwyMWwzaHRDT0dGWmR1MHR0R0k2eEM2bEU5My11N1ZsTjlQQXZseWIzNXBPa08zamY1Z2FiUmlVX3ZzUWpBc25tMHMyZmtVenpPaHNKMndIRzV0M1hOVzhrQXQtREF5U3JJck9EeTlLemliVDlHbUpNVFljbl9RMUsxeGhlLW1xOUZLTXczWtIB_gFBVV95cUxQYmlOZFZINEpWS2hVVk5HNlJnbk9NMU8yQlRoT0UxMGI4VmZUU01GcS1QQjZsTWRqeTRCSF9hNFBmeEx4MWJvWVRpS01uUFg2M0s0VllsUlVoeG1DMk5wU3BlMEhzOVhvN25zMURuZ1JlQzJMSXBhRHgxYUE2U1BoQmNCUXh2RlNsUy1MbVgwQjVHbXlwcUR1TG5tSEh3dzFraHlkeFk4OGJzYW5zZ05tX09kVV9mLUdUU3RfRXZCQWdrOWVCQ3Y4MGFDVHMwR25JUm9YNzFEZlEybExpcEVKeGFvNmtBbzgtOEdaU3VvU3AwMTBkT3BaZFdva3dJdw?oc=5",
+     "identity": "possible",
+     "status": "formal_charge"
+    }
+   ],
+   "pdf_ok": true
+  }
+ ],
+ "audit": {
+  "valid": true,
+  "entries": 17,
+  "head": "4c72e0b261d8d288f2a73ee344765b6ffe11020b0069a6b79d725093ad65c954"
+ }
+}

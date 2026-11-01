@@ -1,7 +1,7 @@
 # Test Report — Adverse Media Screening Platform (Phase 1)
 
 - **Run date:** 1 Nov 2026 (Europe/London, GMT).
-- **Environments:** local (SQLite, test mode) and production Render (Postgres; see §5).
+- **Environments:** local (SQLite, test mode) and production on Render (free Docker web service, Frankfurt; **currently no Postgres attached, temporary SQLite** — see §5).
 - **Evidence:** raw outputs are in `docs/live_results/` and screenshots are in `shots/`.
 
 ## 1. Automated test suite (`backend/tests`, pytest)
@@ -96,4 +96,51 @@ given.
 | 15 | No hallucinated sources or faked API responses | Raw-index subset test; the LLM verifier drops ungrounded output (`test_llm_verifier_rejects_ungrounded_output`); fixtures and fault injection are rejected in production (`test_fixtures_rejected_outside_test_mode`); disabled providers are shown as "Not searched" |
 
 ## 5. Production deployment verification
-See `docs/live_results/production.json` and `shots/prod_*`. The results are summarised at the end of this section.
+
+These checks ran on 1 Nov 2026 (00:48–01:00 GMT) against https://adverse-media-platform.onrender.com. That is Render service `srv-dbj8nqoae00c73dh4h6g`: Docker, free plan, Frankfurt, deployed from the `master` branch.
+
+**Database: not attached.** Creating `ams-db` failed:
+- free plan: rejected with "cannot have more than one active free tier database"; the workspace's one free slot is already used by `ecom-db`.
+- `basic_256mb`: rejected with HTTP 402, because no payment method is on file.
+
+The service therefore runs on SQLite inside the container. That storage is temporary: screenings and the audit log are lost on every redeploy, restart or free-tier spin-down. The UI shows an amber **TEMPORARY STORAGE** banner while this is the case. To attach Postgres, create the database and set `DATABASE_URL` to its internal connection string. No code change is needed.
+
+### Smoke test (`scripts/smoke.py`)
+
+| Check | Result |
+|---|---|
+| SPA/login page served | PASS (200) |
+| Unauthenticated list / create rejected | PASS (401 / 401) |
+| Wrong password rejected | PASS (401) |
+| Admin login (password read from file, never echoed) | PASS (200) |
+| POST without CSRF token rejected | PASS (403) |
+| Real screening "Wirecard AG" (no identifiers) | AMBER in 71 s; 317 findings, all with real publisher or Google News URLs |
+| PDF export | PASS (151 KB, `%PDF`) |
+| Audit hash chain verifies | PASS |
+| Secrets in Render logs | none found; the admin password and SECRET_KEY were searched for in the logs |
+
+### Live acceptance cases (`scripts/live_acceptance.py`)
+
+| Case | Production | Local (same day) | Note |
+|---|---|---|---|
+| Wirecard AG, jurisdiction Germany | **AMBER** (133 review, 0 material), 70 s | RED | See the explanation below the table. |
+| Quillon Dravenmoor-Tesk (obscure) | **GREEN**, 29 s | GREEN | PASS |
+| Nick Leeson + DOB/UK/Barings | **AMBER** (4 review), 42 s | RED | Bing News returned 2 items from Render, against far more locally. |
+
+**Why Wirecard came out AMBER in production:** the live news mix changes between runs and between networks.
+- Locally, two Guardian articles fetched in full contained "Wirecard AG" plus a German reference. That scores 50 points (probable), so they met every RED rule.
+- From Render, the Guardian items arrived as opaque Google News redirects (snippet only). The full-text articles (DW, CNBC, The Local) said "Wirecard" without "AG", which scores 30 + 10 = 40, below the probable threshold.
+- The conviction headline (Hindustan Times) was probable, but it is a tier-4 source with a single source.
+
+The engine is therefore working as designed. A name-only or weak identity match is capped and goes to analyst review rather than being auto-escalated. We did **not** retune thresholds against this live result, to avoid overfitting.
+
+**Providers observed live from Render:**
+- google_news ok
+- bing_news ok, but returns fewer results than locally
+- govuk ok
+- doj ok
+- sec_litigation ok
+- **gdelt: timeout on every run**; reported as a coverage note, and minimum coverage was still met
+- key-based providers: shown as "disabled-no-key"
+
+Screenshots of the production instance are at `shots/prod_01…08_{desktop,mobile}.png` (1280 px and 390 px).
